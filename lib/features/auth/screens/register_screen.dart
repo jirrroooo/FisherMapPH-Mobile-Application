@@ -1,26 +1,10 @@
 import 'package:fishermap_ph_mobileapp/features/auth/bloc/auth_bloc.dart';
+import 'package:fishermap_ph_mobileapp/features/auth/models/enum.dart';
 import 'package:fishermap_ph_mobileapp/features/auth/widgets/auth_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-enum VesselType {
-  small("Small"),
-  medium("Medium"),
-  large("Large");
-
-  const VesselType(this.label);
-  final String label;
-}
-
-enum CivilStatus {
-  married("Married"),
-  single("Single"),
-  widowed("Widowed"),
-  separated("Legally Separated");
-
-  const CivilStatus(this.label);
-  final String label;
-}
+import 'package:intl/intl.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -30,32 +14,42 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final emailController = TextEditingController();
+  final contactNumberController = TextEditingController();
+  final addressController = TextEditingController();
+  final birthdayController = TextEditingController();
+  final civilStatusController = TextEditingController();
+  final fishingVesselTypeController = TextEditingController();
+  final sexController = TextEditingController();
+  final passwordController1 = TextEditingController();
+  final passwordController2 = TextEditingController();
+
+  bool isHide1 = true;
+  bool isHide2 = true;
+
   @override
   Widget build(BuildContext context) {
-    final firstNameController = TextEditingController();
-    final lastNameController = TextEditingController();
-    final emailController = TextEditingController();
-    final contactNumberController = TextEditingController();
-    final addressController = TextEditingController();
-    final birthdayController = TextEditingController();
-    final civilStatusController = TextEditingController();
-    final fishingVesselTypeController = TextEditingController();
-    final passwordController = TextEditingController();
+    DateTime? pickedDate;
 
     var _selectedVesselType;
     var _selectedCivilStatus;
+    var _selectedSex;
 
     const fieldGap = 15.0;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Register an Account',
-            style: TextStyle(
-              fontSize: 25,
-              fontFamily: 'Readex Pro',
-              fontWeight: FontWeight.bold,
-              color: Color.fromRGBO(0, 39, 68, 1),
-            )),
+        title: Text(
+          'Register an Account',
+          style: TextStyle(
+            fontSize: 22,
+            fontFamily: 'Readex Pro',
+            fontWeight: FontWeight.bold,
+            color: Color.fromRGBO(0, 39, 68, 1),
+          ),
+        ),
       ),
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
@@ -104,6 +98,46 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 controller: lastNameController,
               ),
               SizedBox(height: fieldGap),
+              DropdownMenu<Sex>(
+                width: 380,
+                leadingIcon: Icon(Icons.assignment_ind),
+                enableSearch: true,
+                controller: sexController,
+                enableFilter: false,
+                requestFocusOnTap: true,
+                hintText: "Enter Sex Assigned at Birth",
+                onSelected: (Sex? sex) {
+                  setState(() {
+                    _selectedSex = sex;
+                  });
+                },
+                inputDecorationTheme: InputDecorationTheme(
+                  fillColor: Colors.white,
+                  filled: true,
+                  contentPadding: const EdgeInsets.all(27),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Color.fromRGBO(59, 58, 69, 1),
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Color.fromRGBO(0, 0, 0, 0.498),
+                      width: 3,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                dropdownMenuEntries: Sex.values.map<DropdownMenuEntry<Sex>>(
+                  (Sex sex) {
+                    return DropdownMenuEntry<Sex>(
+                        value: sex, label: sex.label, enabled: true);
+                  },
+                ).toList(),
+              ),
+              SizedBox(height: fieldGap),
               AuthField(
                 hintText: 'Enter Email Address',
                 controller: emailController,
@@ -119,125 +153,194 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 controller: addressController,
               ),
               SizedBox(height: fieldGap),
-              AuthField(
-                hintText: 'Enter Birthday',
+              TextFormField(
+                keyboardType: TextInputType.datetime,
                 controller: birthdayController,
+                onTap: () async => {
+                  pickedDate = await showDatePicker(
+                    context: context,
+                    lastDate: DateTime.now(),
+                    firstDate: DateTime(1930),
+                    initialDate: DateTime.now(),
+                  ),
+                  // if (pickedDate == null) return;
+                  birthdayController.text =
+                      DateFormat('yyyy-MM-dd').format(pickedDate!)
+                },
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.perm_contact_calendar),
+                  contentPadding: const EdgeInsets.all(25),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Color.fromRGBO(59, 58, 69, 1),
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Color.fromRGBO(0, 0, 0, 0.498),
+                      width: 3,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  hintText: "Enter your Birthday",
+                ),
               ),
               SizedBox(height: fieldGap),
-              AuthField(
-                hintText: 'Enter Civil Status',
+              DropdownMenu<CivilStatus>(
+                width: 380,
+                leadingIcon: Icon(Icons.assignment),
+                enableSearch: true,
                 controller: civilStatusController,
+                enableFilter: false,
+                requestFocusOnTap: true,
+                hintText: "Enter Civil Status",
+                onSelected: (CivilStatus? civilStatus) {
+                  setState(() {
+                    _selectedCivilStatus = civilStatus;
+                  });
+                },
+                inputDecorationTheme: InputDecorationTheme(
+                  fillColor: Colors.white,
+                  filled: true,
+                  contentPadding: const EdgeInsets.all(27),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Color.fromRGBO(59, 58, 69, 1),
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Color.fromRGBO(0, 0, 0, 0.498),
+                      width: 3,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                dropdownMenuEntries:
+                    CivilStatus.values.map<DropdownMenuEntry<CivilStatus>>(
+                  (CivilStatus civilStatus) {
+                    return DropdownMenuEntry<CivilStatus>(
+                        value: civilStatus,
+                        label: civilStatus.label,
+                        enabled: true);
+                  },
+                ).toList(),
               ),
-              // ConstrainedBox(
-              //     constraints: const BoxConstraints(
-              //       maxWidth: 400,
-              //     ),
-              //     child: Material(
-              //       elevation: 5.0,
-              //       shadowColor: Colors.grey,
-              //       borderRadius: BorderRadius.all(Radius.circular(20)),
-              //       child: DropdownMenu<CivilStatus>(
-              //         enableSearch: true,
-              //         controller: civilStatusController,
-              //         enableFilter: false,
-              //         requestFocusOnTap: true,
-              //         hintText: "Enter Civil Status",
-              //         onSelected: (CivilStatus? civilStatus) {
-              //           setState(() {
-              //             _selectedCivilStatus = civilStatus;
-              //           });
-              //         },
-              //         inputDecorationTheme: InputDecorationTheme(
-              //           fillColor: Colors.white,
-              //           filled: true,
-              //           contentPadding: const EdgeInsets.all(27),
-              //           enabledBorder: OutlineInputBorder(
-              //             borderSide: BorderSide(
-              //               color: Color.fromRGBO(52, 51, 67, 1),
-              //               width: 3,
-              //             ),
-              //             borderRadius: BorderRadius.circular(20),
-              //           ),
-              //           focusedBorder: OutlineInputBorder(
-              //             borderSide: const BorderSide(
-              //               color: Color.fromRGBO(172, 76, 42, 0.612),
-              //               width: 3,
-              //             ),
-              //             borderRadius: BorderRadius.circular(20),
-              //           ),
-              //         ),
-              //         dropdownMenuEntries:
-              //             CivilStatus.values.map<DropdownMenuEntry<CivilStatus>>(
-              //           (CivilStatus civilStatus) {
-              //             return DropdownMenuEntry<CivilStatus>(
-              //                 value: civilStatus,
-              //                 label: civilStatus.label,
-              //                 enabled: true);
-              //           },
-              //         ).toList(),
-              //       ),
-              //     )),
               SizedBox(height: fieldGap),
-              AuthField(
-                hintText: 'Enter Vessel Type',
+              DropdownMenu<VesselType>(
+                width: 380,
+                leadingIcon: Icon(Icons.directions_boat),
+                enableSearch: true,
                 controller: fishingVesselTypeController,
+                enableFilter: false,
+                requestFocusOnTap: true,
+                hintText: "Enter Vessel Type",
+                onSelected: (VesselType? vesselType) {
+                  setState(() {
+                    _selectedVesselType = vesselType;
+                  });
+                },
+                inputDecorationTheme: InputDecorationTheme(
+                  fillColor: Colors.white,
+                  filled: true,
+                  contentPadding: const EdgeInsets.all(27),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Color.fromRGBO(59, 58, 69, 1),
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Color.fromRGBO(0, 0, 0, 0.498),
+                      width: 3,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                dropdownMenuEntries:
+                    VesselType.values.map<DropdownMenuEntry<VesselType>>(
+                  (VesselType vesselType) {
+                    return DropdownMenuEntry<VesselType>(
+                        value: vesselType,
+                        label: vesselType.label,
+                        enabled: true);
+                  },
+                ).toList(),
               ),
-              // ConstrainedBox(
-              //     constraints: const BoxConstraints(
-              //       maxWidth: 400,
-              //     ),
-              //     child: Material(
-              //       elevation: 5.0,
-              //       shadowColor: Colors.grey,
-              //       borderRadius: BorderRadius.all(Radius.circular(20)),
-              //       child: DropdownMenu<VesselType>(
-              //         width: 380,
-              //         controller: fishingVesselTypeController,
-              //         enableFilter: false,
-              //         requestFocusOnTap: true,
-              //         hintText: "Enter Vessel Type",
-              //         inputDecorationTheme: InputDecorationTheme(
-              //           fillColor: Colors.white,
-              //           filled: true,
-              //           contentPadding: const EdgeInsets.all(27),
-              //           enabledBorder: OutlineInputBorder(
-              //             borderSide: BorderSide(
-              //               color: Color.fromRGBO(52, 51, 67, 1),
-              //               width: 3,
-              //             ),
-              //             borderRadius: BorderRadius.circular(20),
-              //           ),
-              //           focusedBorder: OutlineInputBorder(
-              //             borderSide: const BorderSide(
-              //               color: Color.fromRGBO(172, 76, 42, 0.612),
-              //               width: 3,
-              //             ),
-              //             borderRadius: BorderRadius.circular(20),
-              //           ),
-              //         ),
-              //         onSelected: (VesselType? vesselType) {
-              //           setState(() {
-              //             _selectedVesselType = vesselType;
-              //           });
-              //         },
-              //         dropdownMenuEntries:
-              //             VesselType.values.map<DropdownMenuEntry<VesselType>>(
-              //           (VesselType vesselType) {
-              //             return DropdownMenuEntry<VesselType>(
-              //               value: vesselType,
-              //               label: vesselType.label,
-              //             );
-              //           },
-              //         ).toList(),
-              //       ),
-              //     )),
               SizedBox(height: fieldGap),
-              AuthField(
-                hintText: 'Enter Password',
-                controller: passwordController,
+              TextFormField(
+                obscureText: isHide1,
+                controller: passwordController1,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.vpn_key),
+                  suffixIcon: IconButton(
+                      icon: isHide1
+                          ? Icon(Icons.remove_red_eye)
+                          : Icon(Icons.visibility_off),
+                      onPressed: () => {
+                            setState(() {
+                              isHide1 = !isHide1;
+                            })
+                          }),
+                  contentPadding: const EdgeInsets.all(25),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Color.fromRGBO(59, 58, 69, 1),
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Color.fromRGBO(0, 0, 0, 0.498),
+                      width: 3,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  hintText: "Enter Password",
+                ),
+              ),
+              SizedBox(height: fieldGap),
+              TextFormField(
+                obscureText: isHide2,
+                controller: passwordController2,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.vpn_key),
+                  suffixIcon: IconButton(
+                      icon: isHide2
+                          ? Icon(Icons.remove_red_eye)
+                          : Icon(Icons.visibility_off),
+                      onPressed: () => {
+                            setState(() {
+                              isHide2 = !isHide2;
+                            })
+                          }),
+                  contentPadding: const EdgeInsets.all(25),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Color.fromRGBO(59, 58, 69, 1),
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Color.fromRGBO(0, 0, 0, 0.498),
+                      width: 3,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  hintText: "Confirm Password",
+                ),
               ),
               SizedBox(
-                height: 50,
+                height: 30,
               ),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -255,62 +358,56 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   onPressed: () => {
-                        context.read<AuthBloc>().add(
-                              AuthRegisterRequested(
-                                  first_name: firstNameController.text.trim(),
-                                  last_name: lastNameController.text.trim(),
-                                  email_address: emailController.text.trim(),
-                                  contact_number:
-                                      contactNumberController.text.trim(),
-                                  address: addressController.text.trim(),
-                                  birthday: DateTime(2001, 8, 15),
-                                  civil_status:
-                                      civilStatusController.text.trim(),
-                                  fishing_vessel_type:
-                                      fishingVesselTypeController.text.trim(),
-                                  user_type: 'user',
-                                  password: passwordController.text.trim()),
-                            )
+                        context.read<AuthBloc>().add(AuthRegisterRequested(
+                            first_name: firstNameController.text.trim(),
+                            last_name: lastNameController.text.trim(),
+                            sex: sexController.text.trim().toLowerCase(),
+                            email_address: emailController.text.trim(),
+                            contact_number: contactNumberController.text.trim(),
+                            address: addressController.text.trim(),
+                            birthday: serializeBirthday(
+                                birthdayController.text.trim()),
+                            civil_status:
+                                civilStatusController.text.trim().toLowerCase(),
+                            fishing_vessel_type: fishingVesselTypeController
+                                .text
+                                .trim()
+                                .toLowerCase(),
+                            user_type: 'user',
+                            password: passwordController1.text.trim(),
+                            confirm_password: passwordController2.text.trim()))
                       }),
 
-              SizedBox(height: 30),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text('Read the Privacy Policy here',
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontFamily: 'Readex Pro',
-                          color: Colors.black)),
-                  // TextButton(
-                  //   style: TextButton.styleFrom(
-                  //     padding: EdgeInsets.zero,
-                  //     minimumSize: Size(50, 30),
-                  //   ),
-                  //   onPressed: () => {},
-                  //   child: const Text('here',
-                  //       style: TextStyle(
-                  //           fontSize: 14,
-                  //           fontFamily: 'Readex Pro',
-                  //           color: Color.fromRGBO(171, 83, 50, 1))),
-                  // ),
-                  IconButton(
-                      style: IconButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        minimumSize: Size(30, 10),
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      icon: Icon(Icons.keyboard_arrow_right,
-                          color: Color.fromRGBO(171, 83, 50, 1)),
-                      onPressed: () => {}),
-                  // Icon(Icons.keyboard_arrow_right,
-                  //     color: Color.fromRGBO(171, 83, 50, 1))
-                ],
-              ),
+              // SizedBox(height: 30),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     const Text('Read the Privacy Policy here',
+              //         style: TextStyle(
+              //             fontSize: 12,
+              //             fontFamily: 'Readex Pro',
+              //             color: Colors.black)),
+              //     IconButton(
+              //         style: IconButton.styleFrom(
+              //           padding: EdgeInsets.zero,
+              //           minimumSize: Size(30, 10),
+              //           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              //         ),
+              //         icon: Icon(Icons.keyboard_arrow_right,
+              //             color: Color.fromRGBO(171, 83, 50, 1)),
+              //         onPressed: () => {}),
+              //   ],
+              // ),
             ]),
           ));
         },
       ),
     );
+  }
+
+  DateTime serializeBirthday(String text) {
+    var data = text.split('-');
+
+    return DateTime(int.parse(data[0]), int.parse(data[1]), int.parse(data[2]));
   }
 }

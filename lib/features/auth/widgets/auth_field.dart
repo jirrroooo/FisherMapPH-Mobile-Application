@@ -18,6 +18,7 @@ class AuthField extends StatelessWidget {
     final birthdayMatch = RegExp(r'.*Birthday.*');
     final contactMatch = RegExp(r'.*Contact.*');
     final addressMatch = RegExp(r'.*Address.*');
+    final civilStatus = RegExp(r'.*Civil.*');
 
     bool isPass = passwordMatch.hasMatch(hintText);
     bool isName = nameMatch.hasMatch(hintText);
@@ -25,6 +26,7 @@ class AuthField extends StatelessWidget {
     bool isBirthday = birthdayMatch.hasMatch(hintText);
     bool isContact = contactMatch.hasMatch(hintText);
     bool isAddress = addressMatch.hasMatch(hintText);
+    bool isCivilStatus = civilStatus.hasMatch(hintText);
 
     TextInputType inputType = isPass
         ? TextInputType.visiblePassword
@@ -40,34 +42,81 @@ class AuthField extends StatelessWidget {
                             ? TextInputType.multiline
                             : TextInputType.text;
 
+    Icon icon = isPass
+        ? Icon(Icons.vpn_key)
+        : isName
+            ? Icon(Icons.person)
+            : isEmail
+                ? Icon(Icons.email)
+                : isBirthday
+                    ? Icon(Icons.perm_contact_calendar)
+                    : isContact
+                        ? Icon(Icons.call)
+                        : isAddress
+                            ? Icon(Icons.location_on)
+                            : isCivilStatus
+                                ? Icon(Icons.assignment)
+                                : Icon(Icons.directions_boat);
+
     return ConstrainedBox(
         constraints: const BoxConstraints(
           maxWidth: 400,
         ),
-        child: Material(
-            elevation: 5.0,
-            shadowColor: Colors.grey,
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-            child: defaultFormat(inputType, isPass, controller, hintText)));
+        child: isPass
+            ? passwordType(inputType, isPass, controller, hintText, icon)
+            : defaultFormat(inputType, isPass, controller, hintText, icon));
   }
 
-  Widget defaultFormat(inputType, isPass, controller, hinText) {
+  Widget defaultFormat(inputType, isPass, controller, hinText, icon) {
     return TextFormField(
       keyboardType: inputType,
       obscureText: isPass,
       controller: controller,
       decoration: InputDecoration(
-        contentPadding: const EdgeInsets.all(27),
+        prefixIcon: icon,
+        contentPadding: const EdgeInsets.all(25),
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: Color.fromRGBO(52, 51, 67, 1),
-            width: 3,
+            color: Color.fromRGBO(59, 58, 69, 1),
+            width: 1,
           ),
           borderRadius: BorderRadius.circular(20),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: Color.fromRGBO(172, 76, 42, 0.612),
+            color: Color.fromRGBO(0, 0, 0, 0.498),
+            width: 3,
+          ),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        hintText: hintText,
+      ),
+    );
+  }
+
+  Widget passwordType(inputType, isPass, controller, hinText, icon) {
+    bool _isHide = true;
+
+    return TextFormField(
+      keyboardType: inputType,
+      obscureText: _isHide,
+      controller: controller,
+      decoration: InputDecoration(
+        prefixIcon: icon,
+        suffixIcon: IconButton(
+            icon: Icon(Icons.remove_red_eye),
+            onPressed: () => {_isHide = !_isHide}),
+        contentPadding: const EdgeInsets.all(25),
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(
+            color: Color.fromRGBO(59, 58, 69, 1),
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(
+            color: Color.fromRGBO(0, 0, 0, 0.498),
             width: 3,
           ),
           borderRadius: BorderRadius.circular(20),

@@ -33,6 +33,7 @@ class AuthRepository {
         await http.post(Uri.http(credentials.API, credentials.REGISTER), body: {
       'first_name': register.first_name,
       'last_name': register.last_name,
+      'sex': register.sex,
       'email_address': register.email_address,
       'password': register.password,
       'contact_number': register.contact_number,
