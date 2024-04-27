@@ -3,6 +3,7 @@ import 'package:fishermap_ph_mobileapp/features/auth/screens/register_screen.dar
 import 'package:fishermap_ph_mobileapp/features/prompt/error_screen.dart';
 import 'package:fishermap_ph_mobileapp/features/prompt/loading_screen.dart';
 import 'package:fishermap_ph_mobileapp/features/prompt/register_success_screen.dart';
+import 'package:fishermap_ph_mobileapp/home/home.dart';
 import 'package:flutter/material.dart';
 
 class AppRoutes {
@@ -14,10 +15,11 @@ class AppRoutes {
           const RegisterSuccessScreen(),
       "/loading": (BuildContext context) => const LoadingScreen(),
       "/error": (BuildContext context) => const ErrorScreen(),
+      "/homepage": (BuildContext context) => const Homepage(),
     };
   }
 
   getInitialRoute() {
-    return LoginScreen();
+    return Homepage();
   }
 }
