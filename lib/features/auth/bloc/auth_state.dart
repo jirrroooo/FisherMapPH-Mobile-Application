@@ -23,4 +23,10 @@ final class AuthFailure extends AuthState {
   AuthFailure(this.error);
 }
 
+final class AuthSocketException extends AuthState {
+  final String error;
+
+  AuthSocketException(this.error);
+}
+
 final class AuthLoading extends AuthState {}

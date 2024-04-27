@@ -1,3 +1,4 @@
+import 'package:fishermap_ph_mobileapp/app_routes.dart';
 import 'package:fishermap_ph_mobileapp/features/auth/bloc/auth_bloc.dart';
 import 'package:fishermap_ph_mobileapp/features/auth/screens/login_screen.dart';
 import 'package:fishermap_ph_mobileapp/features/auth/screens/register_screen.dart';
@@ -13,6 +14,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppRoutes appRoutes = AppRoutes();
+
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(
@@ -20,14 +23,10 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        routes: {
-          "/login": (BuildContext context) => const LoginScreen(),
-          "/register": (BuildContext context) => const RegisterScreen(),
-        },
-        debugShowCheckedModeBanner: false,
-        // theme: ThemeData.dark(useMaterial3: true),
-        home: LoginScreen(),
-      ),
+          routes: appRoutes.getRoutes(),
+          debugShowCheckedModeBanner: false,
+          // theme: ThemeData.dark(useMaterial3: true),
+          home: appRoutes.getInitialRoute()),
     );
   }
 }

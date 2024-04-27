@@ -1,8 +1,9 @@
 import 'package:fishermap_ph_mobileapp/features/auth/bloc/auth_bloc.dart';
 import 'package:fishermap_ph_mobileapp/features/auth/models/enum.dart';
 import 'package:fishermap_ph_mobileapp/features/auth/widgets/auth_field.dart';
+import 'package:fishermap_ph_mobileapp/features/prompt/error_screen.dart';
+import 'package:fishermap_ph_mobileapp/features/prompt/loading_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
@@ -72,14 +73,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
             // Future.delayed(const Duration(seconds: 1), () {});
 
-            Navigator.pop(context);
+            Navigator.popAndPushNamed(context, '/register-success');
           }
         },
         builder: (context, state) {
           if (state is AuthLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const LoadingScreen();
+          } else if (state is AuthSocketException) {
+            return const ErrorScreen();
           }
 
           return SingleChildScrollView(
@@ -352,10 +353,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: const Text(
                     'Register',
                     style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 23,
-                      color: Colors.white,
-                    ),
+                        fontWeight: FontWeight.w600,
+                        fontSize: 23,
+                        color: Colors.white,
+                        fontFamily: "Readex Pro"),
                   ),
                   onPressed: () => {
                         context.read<AuthBloc>().add(AuthRegisterRequested(

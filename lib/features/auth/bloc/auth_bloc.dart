@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:fishermap_ph_mobileapp/data/secure_storage.dart';
-import 'package:fishermap_ph_mobileapp/features/auth/models/enum.dart';
 import 'package:fishermap_ph_mobileapp/features/auth/models/loginModel.dart';
 import 'package:fishermap_ph_mobileapp/features/auth/models/registerModel.dart';
 import 'package:fishermap_ph_mobileapp/features/auth/repository/auth_repository.dart';
@@ -13,6 +12,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(AuthInitial()) {
     on<AuthLoginRequested>(_onAuthLoginRequested);
     on<AuthRegisterRequested>(_onAuthRegisterRequested);
+    on<AppStarted>(_onAppStarted);
     // on<AuthLogoutRequested>(_onAuthLogoutRequested);
   }
 
@@ -53,7 +53,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         return emit(AuthFailure(data["error"]));
       }
     } catch (e) {
-      return emit(AuthFailure(e.toString()));
+      var socketException = RegExp(r'.*SocketException.*');
+
+      if (socketException.hasMatch(e.toString())) {
+        emit(AuthSocketException(e.toString()));
+        return;
+      }
+
+      emit(AuthFailure(e.toString()));
+
+      return;
     }
   }
 
@@ -96,7 +105,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
 
     if (event.civil_status == "married" ||
-        event.civil_status == "separated" ||
+        event.civil_status == "legally separated" ||
         event.civil_status == "single" ||
         event.civil_status == "widowed") {
     } else {
@@ -128,11 +137,29 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (data["status"] == "success") {
         emit(AuthRegisterSuccess());
       } else {
-        print(data);
-        return emit(AuthFailure(data["status"]));
+        emit(AuthFailure(data["status"]));
       }
+
+      return;
     } catch (e) {
-      return emit(AuthFailure(e.toString()));
+      var socketException = RegExp(r'.*SocketException.*');
+
+      if (socketException.hasMatch(e.toString())) {
+        emit(AuthSocketException(e.toString()));
+        return;
+      }
+
+      emit(AuthFailure(e.toString()));
+
+      return;
     }
+  }
+
+  void _onAppStarted(
+    AppStarted event,
+    Emitter<AuthState> emit,
+  ) {
+    emit(AuthInitial());
+    return;
   }
 }

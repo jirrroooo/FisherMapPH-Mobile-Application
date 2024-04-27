@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:fishermap_ph_mobileapp/data/credentials.dart';
 import 'package:fishermap_ph_mobileapp/features/auth/models/loginModel.dart';
 import 'package:fishermap_ph_mobileapp/features/auth/models/registerModel.dart';
