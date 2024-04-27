@@ -1,4 +1,7 @@
+import 'package:fishermap_ph_mobileapp/components/drawer.dart';
+import 'package:fishermap_ph_mobileapp/features/alert_page/screens/alert_log_screen.dart';
 import 'package:fishermap_ph_mobileapp/features/homepage/screens/home_screen.dart';
+import 'package:fishermap_ph_mobileapp/features/location_page/location_log_screen/location_log_screen.dart';
 import 'package:flutter/material.dart';
 
 class Homepage extends StatefulWidget {
@@ -19,15 +22,9 @@ class _HomepageState extends State<Homepage> {
       'Index 0: Home',
       style: optionStyle,
     ),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
+    AlertLogPage(),
     HomeScreen(),
-    Text(
-      'Index 3: Business',
-      style: optionStyle,
-    ),
+    LocationLogPage(),
     Text(
       'Index 4: School',
       style: optionStyle,
@@ -46,6 +43,7 @@ class _HomepageState extends State<Homepage> {
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
+      drawer: AppDrawer(),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[

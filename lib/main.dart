@@ -1,7 +1,5 @@
 import 'package:fishermap_ph_mobileapp/app_routes.dart';
 import 'package:fishermap_ph_mobileapp/features/auth/bloc/auth_bloc.dart';
-import 'package:fishermap_ph_mobileapp/features/auth/screens/login_screen.dart';
-import 'package:fishermap_ph_mobileapp/features/auth/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

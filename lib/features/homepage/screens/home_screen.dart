@@ -362,7 +362,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Latest Logged Alerts",
+                  Text("Latest Location Logs",
                       style: TextStyle(
                           fontFamily: "Readex Pro",
                           fontSize: 15,
