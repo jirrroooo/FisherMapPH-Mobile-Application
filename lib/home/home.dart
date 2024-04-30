@@ -1,7 +1,8 @@
 import 'package:fishermap_ph_mobileapp/components/drawer.dart';
 import 'package:fishermap_ph_mobileapp/features/alert_page/screens/alert_log_screen.dart';
+import 'package:fishermap_ph_mobileapp/features/distress_call_page/screens/distress_call_screen.dart';
 import 'package:fishermap_ph_mobileapp/features/homepage/screens/home_screen.dart';
-import 'package:fishermap_ph_mobileapp/features/location_page/location_log_screen/location_log_screen.dart';
+import 'package:fishermap_ph_mobileapp/features/location_page/screens/location_log_screen.dart';
 import 'package:flutter/material.dart';
 
 class Homepage extends StatefulWidget {
@@ -25,10 +26,7 @@ class _HomepageState extends State<Homepage> {
     AlertLogPage(),
     HomeScreen(),
     LocationLogPage(),
-    Text(
-      'Index 4: School',
-      style: optionStyle,
-    ),
+    DistressCallScreen(),
   ];
 
   void _onItemTapped(int index) {

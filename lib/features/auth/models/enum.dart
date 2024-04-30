@@ -24,3 +24,28 @@ enum CivilStatus {
   const CivilStatus(this.label);
   final String label;
 }
+
+enum EmergencyType {
+  boatSinks("Boat Sinks"),
+  crewFell("Crew Fell to the Sea"),
+  fireOnboard("Fire Emergency"),
+  floodedVessel("Flooded Vessel"),
+  lostAtSea("Lost at Sea"),
+  collision("Collision with Other Vessels"),
+  entanglement("Entanglement in Fishing Gear"),
+  severeWeather("Severe Weather"),
+  hypothermia("Hypothermia"),
+  engineFailure("Engine Failure"),
+  pirateAttacks("Pirate Attacks"),
+  medicalEmergencies("Medical Emergencies"),
+  harmfulAlgalBlooms("Exposure to Harmful Algal Blooms"),
+  pollutionIncidents("Pollution Incidents"),
+  stranded("Stranded in Shallow Waters"),
+  equipmentMalfunction("Equipment Malfunction"),
+  exhaustion("Exhaustion and Fatigue"),
+  whaleCollision("Whale or Large Marine Life Collisions"),
+  illegalFishing("Illegal Fishing");
+
+  const EmergencyType(this.label);
+  final String label;
+}

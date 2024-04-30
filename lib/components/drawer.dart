@@ -95,19 +95,20 @@ class AppDrawer extends StatelessWidget {
               contentPadding: EdgeInsets.zero,
               leading: Icon(Icons.assignment),
               title: Text('Credits'),
-              onTap: () => {},
+              onTap: () => {Navigator.popAndPushNamed(context, "/credits")},
             ),
             ListTile(
               contentPadding: EdgeInsets.zero,
               leading: Icon(Icons.info),
               title: Text('About'),
-              onTap: () => {},
+              onTap: () => {Navigator.popAndPushNamed(context, "/about")},
             ),
             ListTile(
               contentPadding: EdgeInsets.zero,
               leading: Icon(Icons.privacy_tip),
               title: Text('Privacy Policy'),
-              onTap: () => {},
+              onTap: () =>
+                  {Navigator.popAndPushNamed(context, "/privacy-policy")},
             ),
             SizedBox(
               height: 90,
