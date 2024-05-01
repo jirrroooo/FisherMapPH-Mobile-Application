@@ -4,10 +4,7 @@ class Credentials {
   final String REGISTER = "/auth/signup";
   final String USER_ID = "/auth/profile";
   final String LOG = "/logs";
+  final String LOCATION_LOG = "/logs/location/";
+  final String ALERT_LOG = "/logs/alert/";
   final String USER = "/users";
-  static String firstName = "";
-
-  setFirstName(String firstName) {
-    Credentials.firstName = firstName;
-  }
 }
