@@ -20,7 +20,7 @@ class _AlertLogPageState extends State<AlertLogPage> {
 
   TextStyle tableValStyle = TextStyle(fontFamily: "Readex Pro", fontSize: 12);
 
-  final DateFormat formatter = DateFormat('MMMM d, y');
+  final DateFormat formatter = DateFormat('MM/d/y - hh:mm a');
 
   @override
   void initState() {

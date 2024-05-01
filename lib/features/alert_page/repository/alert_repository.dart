@@ -13,24 +13,16 @@ class AlertRepository {
     String token = await secureStorage.getSecureData("token");
     String id = await secureStorage.getSecureData("user_id");
 
-    print("TOKEN ==> " + token);
-    print("ID ==> " + id);
-
     var response = await http
         .get(Uri.http(credentials.API, credentials.ALERT_LOG + id), headers: {
       'Authorization': 'Bearer $token',
     });
 
-    print("RES ===> " + response.body);
-
     var data = jsonDecode(response.body);
-
-    print("DATA ====>  " + data.toString());
 
     List<AlertModel> alert_logs = [];
 
     for (var d in data) {
-      print(d is Map);
       alert_logs.add(AlertModel(
           description: d["description"],
           level: d["level"],
@@ -41,8 +33,6 @@ class AlertRepository {
           radius: d["radius"],
           location: d["location"]));
     }
-
-    print("alert_logs ====> " + alert_logs.toString());
 
     return alert_logs;
   }

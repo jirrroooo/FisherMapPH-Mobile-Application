@@ -2,6 +2,8 @@ import 'package:fishermap_ph_mobileapp/app_routes.dart';
 import 'package:fishermap_ph_mobileapp/features/alert_page/bloc/alert_bloc.dart';
 import 'package:fishermap_ph_mobileapp/features/alert_page/repository/alert_repository.dart';
 import 'package:fishermap_ph_mobileapp/features/auth/bloc/auth_bloc.dart';
+import 'package:fishermap_ph_mobileapp/features/location_page/bloc/location_bloc.dart';
+import 'package:fishermap_ph_mobileapp/features/location_page/repository/location_repository.dart';
 import 'package:fishermap_ph_mobileapp/home/bloc/home_bloc.dart';
 import 'package:fishermap_ph_mobileapp/home/repository/home_repository.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +30,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<AlertBloc>(
           create: (BuildContext context) => AlertBloc(AlertRepository()),
+        ),
+        BlocProvider<LocationBloc>(
+          create: (BuildContext context) => LocationBloc(LocationRepository()),
         ),
       ],
       child: MaterialApp(
