@@ -41,14 +41,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       LoginModel loginCredentials = LoginModel(
           email_address: event.email_address, password: event.password);
 
-      /* TODO: Email and Password Frontend Authentication */
-
       var data = await authRepository.login(login: loginCredentials);
 
       if (data["token"] != null) {
         emit(AuthLoginSuccess());
 
-        // secureStorage.writeSecureData("token", data["token"].toString());
+        secureStorage.writeSecureData("token", data["token"].toString());
       } else {
         return emit(AuthFailure(data["error"]));
       }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AboutPage extends StatefulWidget {
   const AboutPage({super.key});
@@ -8,6 +9,21 @@ class AboutPage extends StatefulWidget {
 }
 
 class _AboutPageState extends State<AboutPage> {
+  @override
+  void initState() {
+    super.initState();
+
+    _isVerified();
+  }
+
+  void _isVerified() async {
+    FlutterSecureStorage fst = FlutterSecureStorage();
+
+    if (await fst.containsKey(key: "token") == false) {
+      Navigator.popAndPushNamed(context, "/login");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

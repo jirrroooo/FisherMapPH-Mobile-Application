@@ -1,5 +1,6 @@
 import 'package:fishermap_ph_mobileapp/features/auth/models/enum.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class DistressCallScreen extends StatefulWidget {
   const DistressCallScreen({super.key});
@@ -13,6 +14,21 @@ class _DistressCallScreenState extends State<DistressCallScreen> {
   TextEditingController distressMessageController = TextEditingController();
   var _selectedEmergencyType;
   var _distressMessage;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _isVerified();
+  }
+
+  void _isVerified() async {
+    FlutterSecureStorage fst = FlutterSecureStorage();
+
+    if (await fst.containsKey(key: "token") == false) {
+      Navigator.popAndPushNamed(context, "/login");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

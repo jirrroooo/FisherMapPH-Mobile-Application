@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class CreditsPage extends StatefulWidget {
   const CreditsPage({super.key});
@@ -23,6 +24,21 @@ class _CreditsPageState extends State<CreditsPage> {
     "https://www.flaticon.com/free-icons/foursquare-check-in",
     "https://www.flaticon.com/free-icons/fisherman",
   ];
+
+  @override
+  void initState() {
+    super.initState();
+
+    _isVerified();
+  }
+
+  void _isVerified() async {
+    FlutterSecureStorage fst = FlutterSecureStorage();
+
+    if (await fst.containsKey(key: "token") == false) {
+      Navigator.popAndPushNamed(context, "/login");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

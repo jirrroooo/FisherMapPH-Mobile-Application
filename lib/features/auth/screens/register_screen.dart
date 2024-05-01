@@ -5,6 +5,7 @@ import 'package:fishermap_ph_mobileapp/features/prompt_page/error_screen.dart';
 import 'package:fishermap_ph_mobileapp/features/prompt_page/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -29,6 +30,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   bool isHide1 = true;
   bool isHide2 = true;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _isVerified();
+  }
+
+  void _isVerified() async {
+    FlutterSecureStorage fst = FlutterSecureStorage();
+
+    if (await fst.containsKey(key: "token") == true) {
+      Navigator.popAndPushNamed(context, "/homepage");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

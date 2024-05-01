@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:fishermap_ph_mobileapp/components/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AlertLogPage extends StatefulWidget {
   const AlertLogPage({super.key});
@@ -16,6 +17,21 @@ class _AlertLogPageState extends State<AlertLogPage> {
       fontFamily: "Readex Pro", fontSize: 12, fontWeight: FontWeight.w500);
 
   TextStyle tableValStyle = TextStyle(fontFamily: "Readex Pro", fontSize: 12);
+
+  @override
+  void initState() {
+    super.initState();
+
+    _isVerified();
+  }
+
+  void _isVerified() async {
+    FlutterSecureStorage fst = FlutterSecureStorage();
+
+    if (await fst.containsKey(key: "token") == false) {
+      Navigator.popAndPushNamed(context, "/login");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

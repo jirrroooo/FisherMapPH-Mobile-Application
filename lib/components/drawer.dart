@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AppDrawer extends StatelessWidget {
-  const AppDrawer({super.key});
+  AppDrawer({super.key});
+
+  FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +120,10 @@ class AppDrawer extends StatelessWidget {
                 height: 30,
               ),
               ElevatedButton(
-                  onPressed: () => {},
+                  onPressed: () => {
+                        secureStorage.delete(key: "token"),
+                        Navigator.popAndPushNamed(context, "/login")
+                      },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

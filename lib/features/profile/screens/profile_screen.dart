@@ -1,5 +1,6 @@
 import 'package:fishermap_ph_mobileapp/features/auth/models/enum.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -22,6 +23,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController fishingVesselTypeController = TextEditingController();
 
   bool isEdit = false;
+  @override
+  void initState() {
+    super.initState();
+
+    _isVerified();
+  }
+
+  void _isVerified() async {
+    FlutterSecureStorage fst = FlutterSecureStorage();
+
+    if (await fst.containsKey(key: "token") == false) {
+      Navigator.popAndPushNamed(context, "/login");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

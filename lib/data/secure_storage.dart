@@ -7,6 +7,10 @@ class SecureStorage {
     await storage.write(key: key, value: value);
   }
 
+  hasKey(String key) {
+    return storage.containsKey(key: key);
+  }
+
   getSecureData(String key) async {
     String? val = await storage.read(key: key) ?? null;
     return val.toString();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
@@ -12,6 +13,21 @@ class _NotificationScreenState extends State<NotificationScreen> {
       fontFamily: "Readex Pro", fontSize: 12, fontWeight: FontWeight.w500);
 
   TextStyle tableValStyle = TextStyle(fontFamily: "Readex Pro", fontSize: 12);
+
+  @override
+  void initState() {
+    super.initState();
+
+    _isVerified();
+  }
+
+  void _isVerified() async {
+    FlutterSecureStorage fst = FlutterSecureStorage();
+
+    if (await fst.containsKey(key: "token") == false) {
+      Navigator.popAndPushNamed(context, "/login");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

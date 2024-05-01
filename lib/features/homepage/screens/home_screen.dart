@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -8,6 +9,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    _isVerified();
+  }
+
+  void _isVerified() async {
+    FlutterSecureStorage fst = FlutterSecureStorage();
+
+    if (await fst.containsKey(key: "token") == false) {
+      Navigator.popAndPushNamed(context, "/login");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -174,14 +190,19 @@ class _HomeScreenState extends State<HomeScreen> {
                               height: 10,
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text(
-                                "You are entering a disputed maritime territory. It is advised that you go back to safe position immediately. If tension arises, send a distress signal in the distress signal tab of the application. Keep Safe!",
-                                style: TextStyle(
-                                  fontFamily: "Readex Pro",
-                                  fontSize: 11,
+                              padding: const EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                height: 60,
+                                child: SingleChildScrollView(
+                                  child: Text(
+                                    "You are entering a disputed maritime territory. It is advised that you go back to safe position immediately. If tension arises, send a distress signal in the distress signal tab of the application. Keep Safe",
+                                    style: TextStyle(
+                                      fontFamily: "Readex Pro",
+                                      fontSize: 11,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
-                                textAlign: TextAlign.center,
                               ),
                             ),
                             SizedBox(

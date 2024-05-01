@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class WeatherScreen extends StatefulWidget {
   const WeatherScreen({super.key});
@@ -11,6 +12,21 @@ class _WeatherScreenState extends State<WeatherScreen> {
   TextStyle boldStyle = TextStyle(
       fontFamily: "Readex Pro", fontSize: 15, fontWeight: FontWeight.w500);
   TextStyle normalStyle = TextStyle(fontFamily: "Readex Pro", fontSize: 15);
+
+  @override
+  void initState() {
+    super.initState();
+
+    _isVerified();
+  }
+
+  void _isVerified() async {
+    FlutterSecureStorage fst = FlutterSecureStorage();
+
+    if (await fst.containsKey(key: "token") == false) {
+      Navigator.popAndPushNamed(context, "/login");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

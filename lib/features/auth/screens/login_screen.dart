@@ -4,6 +4,7 @@ import 'package:fishermap_ph_mobileapp/features/prompt_page/error_screen.dart';
 import 'package:fishermap_ph_mobileapp/features/prompt_page/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,6 +17,21 @@ class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool isHide = true;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _isVerified();
+  }
+
+  void _isVerified() async {
+    FlutterSecureStorage fst = FlutterSecureStorage();
+
+    if (await fst.containsKey(key: "token") == true) {
+      Navigator.popAndPushNamed(context, "/homepage");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +54,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 content: Text("Successful Login!"),
               ),
             );
+
+            Navigator.popAndPushNamed(context, "/homepage");
           }
         },
         builder: (context, state) {

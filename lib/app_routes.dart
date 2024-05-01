@@ -1,3 +1,4 @@
+import 'package:fishermap_ph_mobileapp/data/secure_storage.dart';
 import 'package:fishermap_ph_mobileapp/features/alert_page/screens/alert_log_screen.dart';
 import 'package:fishermap_ph_mobileapp/features/auth/screens/login_screen.dart';
 import 'package:fishermap_ph_mobileapp/features/auth/screens/register_screen.dart';
@@ -15,8 +16,13 @@ import 'package:fishermap_ph_mobileapp/features/static_pages/screens/privacy_pol
 import 'package:fishermap_ph_mobileapp/features/weather/screens/weather_page.dart';
 import 'package:fishermap_ph_mobileapp/home/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AppRoutes {
+  SecureStorage secureStorage = new SecureStorage();
+
+  FlutterSecureStorage sT = FlutterSecureStorage();
+
   getRoutes() {
     return {
       "/login": (BuildContext context) => const LoginScreen(),
@@ -40,7 +46,11 @@ class AppRoutes {
     };
   }
 
-  getInitialRoute() {
-    return Homepage();
+  Future<Widget> getInitialRoute() async {
+    if (await sT.containsKey(key: "token")) {
+      return Homepage();
+    }
+
+    return LoginScreen();
   }
 }

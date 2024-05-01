@@ -15,16 +15,28 @@ class MyApp extends StatelessWidget {
     AppRoutes appRoutes = AppRoutes();
 
     return MultiBlocProvider(
-      providers: [
-        BlocProvider<AuthBloc>(
-          create: (BuildContext context) => AuthBloc(),
-        ),
-      ],
-      child: MaterialApp(
-          routes: appRoutes.getRoutes(),
-          debugShowCheckedModeBanner: false,
-          // theme: ThemeData.dark(useMaterial3: true),
-          home: appRoutes.getInitialRoute()),
-    );
+        providers: [
+          BlocProvider<AuthBloc>(
+            create: (BuildContext context) => AuthBloc(),
+          ),
+        ],
+        child: MaterialApp(
+            routes: appRoutes.getRoutes(),
+            debugShowCheckedModeBanner: false,
+            // theme: ThemeData.dark(useMaterial3: true),
+            home: FutureBuilder<Widget>(
+                future: appRoutes.getInitialRoute(),
+                builder:
+                    (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                  if (!snapshot.hasData) {
+                    // while data is loading:
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    // data loaded:
+                    return snapshot.data!;
+                  }
+                })));
   }
 }

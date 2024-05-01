@@ -4,6 +4,7 @@ import 'package:fishermap_ph_mobileapp/features/distress_call_page/screens/distr
 import 'package:fishermap_ph_mobileapp/features/homepage/screens/home_screen.dart';
 import 'package:fishermap_ph_mobileapp/features/location_page/screens/location_log_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -13,7 +14,7 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -33,6 +34,21 @@ class _HomepageState extends State<Homepage> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _isVerified();
+  }
+
+  void _isVerified() async {
+    FlutterSecureStorage fst = FlutterSecureStorage();
+
+    if (await fst.containsKey(key: "token") == false) {
+      Navigator.popAndPushNamed(context, "/login");
+    }
   }
 
   @override
