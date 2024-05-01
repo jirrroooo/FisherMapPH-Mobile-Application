@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:fishermap_ph_mobileapp/components/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';

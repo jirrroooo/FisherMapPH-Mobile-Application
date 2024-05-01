@@ -41,14 +41,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       LoginModel loginCredentials = LoginModel(
           email_address: event.email_address, password: event.password);
 
+      var id;
       var data = await authRepository.login(login: loginCredentials);
 
-      if (data["token"] != null) {
+      if (data["token"] != null && data["userType"] == "user") {
         emit(AuthLoginSuccess());
 
         secureStorage.writeSecureData("token", data["token"].toString());
+        id = await authRepository.getUserId(data["token"]);
+
+        print("ID => " + id["id"]);
+
+        secureStorage.writeSecureData("user_id", id["id"]);
+      } else if (data["token"] != null && data["userType"] != "user") {
+        return emit(
+            AuthFailure("Admin, Please Log In to FisherMap PH Website"));
       } else {
-        return emit(AuthFailure(data["error"]));
+        return emit(AuthFailure(data["message"][0]));
       }
     } catch (e) {
       var socketException = RegExp(r'.*SocketException.*');
@@ -131,9 +140,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     try {
       var data = await authRepository.register(register: registerCredentials);
+      var logResponse;
 
       if (data["status"] == "success") {
-        emit(AuthRegisterSuccess());
+        logResponse = await authRepository.createLog(data["id"]);
+
+        if (logResponse["status"] == "success") {
+          emit(AuthRegisterSuccess());
+        }
       } else {
         emit(AuthFailure(data["status"]));
       }

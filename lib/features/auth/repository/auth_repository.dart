@@ -8,14 +8,7 @@ import 'package:http/http.dart' as http;
 class AuthRepository {
   Credentials credentials = Credentials();
 
-  // final dio = Dio();
-
   Future<dynamic> login({required LoginModel login}) async {
-    // Response response;
-
-    // response = await dio.post(credentials.login,
-    //     data: {'email_address': email_address, 'password': password});
-
     var response = await http.post(Uri.http(credentials.API, credentials.LOGIN),
         body: {
           'email_address': login.email_address,
@@ -23,8 +16,6 @@ class AuthRepository {
         });
 
     return jsonDecode(response.body);
-
-    // return response.data;
   }
 
   Future<dynamic> register({required RegisterModel register}) async {
@@ -42,6 +33,25 @@ class AuthRepository {
       'user_type': register.user_type,
       'fishing_vessel_type': register.fishing_vessel_type
     });
+
+    return jsonDecode(response.body);
+  }
+
+  Future<dynamic> createLog(String id) async {
+    var response =
+        await http.post(Uri.http(credentials.API, credentials.LOG), body: {
+      'user_id': id,
+    });
+
+    return jsonDecode(response.body);
+  }
+
+  Future<dynamic> getUserId(String token) async {
+    var response = await http.get(
+        Uri.http(credentials.API, credentials.USER_ID + "/" + token),
+        headers: {
+          'Authorization': 'Bearer $token',
+        });
 
     return jsonDecode(response.body);
   }

@@ -52,7 +52,8 @@ class RegisterSuccessScreen extends StatelessWidget {
                       color: Colors.white,
                       fontFamily: "Readex Pro"),
                 ),
-                onPressed: () => {Navigator.pop(context)}),
+                onPressed: () =>
+                    {Navigator.popAndPushNamed(context, "/login")}),
           ],
         ),
       ),

@@ -14,7 +14,7 @@ import 'package:fishermap_ph_mobileapp/features/static_pages/screens/about.dart'
 import 'package:fishermap_ph_mobileapp/features/static_pages/screens/credits.dart';
 import 'package:fishermap_ph_mobileapp/features/static_pages/screens/privacy_policy.dart';
 import 'package:fishermap_ph_mobileapp/features/weather/screens/weather_page.dart';
-import 'package:fishermap_ph_mobileapp/home/home.dart';
+import 'package:fishermap_ph_mobileapp/home/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 

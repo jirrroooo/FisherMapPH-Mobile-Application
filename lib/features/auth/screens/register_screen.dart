@@ -87,8 +87,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             );
 
-            // Future.delayed(const Duration(seconds: 1), () {});
-
             Navigator.popAndPushNamed(context, '/register-success');
           }
         },
