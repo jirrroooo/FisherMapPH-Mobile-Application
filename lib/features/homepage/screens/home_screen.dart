@@ -16,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(
             width: 10,
           ),
-          Icon(Icons.location_on),
+          Icon(Icons.location_on_rounded),
           SizedBox(
             width: 10,
           ),
@@ -27,13 +27,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ]),
         leadingWidth: double.infinity,
         actions: [
-          Icon(Icons.notifications),
-          SizedBox(
-            width: 10,
+          IconButton(
+            onPressed: () => {Navigator.pushNamed(context, "/notification")},
+            icon: Icon(Icons.notifications_rounded),
           ),
-          Icon(Icons.cloud),
-          SizedBox(
-            width: 10,
+          IconButton(
+            onPressed: () => {Navigator.pushNamed(context, "/weather")},
+            icon: Icon(Icons.cloud_rounded),
           ),
           Text("36°", style: TextStyle(fontFamily: "Readex Pro", fontSize: 15)),
           SizedBox(
@@ -117,13 +117,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   )),
               SizedBox(
-                height: 20,
+                height: 30,
               ),
               Text("Important Notifications",
                   style: TextStyle(
                       fontFamily: "Readex Pro",
                       fontSize: 15,
-                      fontWeight: FontWeight.w500),
+                      fontWeight: FontWeight.w700),
                   textAlign: TextAlign.left),
               SizedBox(
                 height: 10,
@@ -179,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 "You are entering a disputed maritime territory. It is advised that you go back to safe position immediately. If tension arises, send a distress signal in the distress signal tab of the application. Keep Safe!",
                                 style: TextStyle(
                                   fontFamily: "Readex Pro",
-                                  fontSize: 10,
+                                  fontSize: 11,
                                 ),
                                 textAlign: TextAlign.center,
                               ),
@@ -216,16 +216,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: TextStyle(
                           fontFamily: "Readex Pro",
                           fontSize: 15,
-                          fontWeight: FontWeight.w500),
+                          fontWeight: FontWeight.w700),
                       textAlign: TextAlign.left),
                   ElevatedButton(
-                      onPressed: () => {},
+                      onPressed: () =>
+                          {Navigator.pushNamed(context, '/alerts')},
                       child: Text(
                         "View All",
                         style: TextStyle(
                             color: Colors.white,
                             fontFamily: "Readex Pro",
-                            fontSize: 10),
+                            fontSize: 12),
                       ),
                       style: ButtonStyle(
                           backgroundColor: MaterialStatePropertyAll(
@@ -303,7 +304,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         "Expect Heavy Rain and High Sea Wave",
                                         style: TextStyle(
                                           fontFamily: "Readex Pro",
-                                          fontSize: 10,
+                                          fontSize: 11,
                                         ),
                                         textAlign: TextAlign.center,
                                       ),
@@ -322,7 +323,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         "Please go back to the seashore immediately!",
                                         style: TextStyle(
                                           fontFamily: "Readex Pro",
-                                          fontSize: 10,
+                                          fontSize: 11,
                                         ),
                                         textAlign: TextAlign.center,
                                       ),
@@ -366,16 +367,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: TextStyle(
                           fontFamily: "Readex Pro",
                           fontSize: 15,
-                          fontWeight: FontWeight.w500),
+                          fontWeight: FontWeight.w700),
                       textAlign: TextAlign.left),
                   ElevatedButton(
-                      onPressed: () => {},
+                      onPressed: () =>
+                          {Navigator.pushNamed(context, '/location')},
                       child: Text(
                         "View All",
                         style: TextStyle(
                             color: Colors.white,
                             fontFamily: "Readex Pro",
-                            fontSize: 10),
+                            fontSize: 12),
                       ),
                       style: ButtonStyle(
                           backgroundColor: MaterialStatePropertyAll(
@@ -419,7 +421,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   "Tiwi, Albay (10/15/01 - 10:59 AM)",
                                   style: TextStyle(
                                       fontFamily: "Readex Pro",
-                                      fontSize: 12,
+                                      fontSize: 14,
                                       fontWeight: FontWeight.w700),
                                 ),
                                 SizedBox(

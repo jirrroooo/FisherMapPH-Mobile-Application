@@ -1,7 +1,7 @@
 import 'package:fishermap_ph_mobileapp/features/auth/bloc/auth_bloc.dart';
 import 'package:fishermap_ph_mobileapp/features/auth/widgets/auth_field.dart';
-import 'package:fishermap_ph_mobileapp/features/prompt/error_screen.dart';
-import 'package:fishermap_ph_mobileapp/features/prompt/loading_screen.dart';
+import 'package:fishermap_ph_mobileapp/features/prompt_page/error_screen.dart';
+import 'package:fishermap_ph_mobileapp/features/prompt_page/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

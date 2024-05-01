@@ -65,7 +65,7 @@ class _AboutPageState extends State<AboutPage> {
                   children: [
                     Image.asset(
                       "assets/images/vision.jpg",
-                      width: 35,
+                      width: 40,
                     ),
                     Text(
                       "VISION",
@@ -77,14 +77,14 @@ class _AboutPageState extends State<AboutPage> {
                   ],
                 ),
                 SizedBox(
-                  width: 20,
+                  width: 40,
                 ),
                 Expanded(
                   child: Text(
                     "Our goal is to provide an organized platform that increases the security and broaden the linkages among the fisherfolk in the Philippines.",
                     style: TextStyle(
                       fontFamily: "Readex Pro",
-                      fontSize: 12,
+                      fontSize: 13,
                     ),
                   ),
                 )
@@ -98,7 +98,7 @@ class _AboutPageState extends State<AboutPage> {
                     "The FisherMap PH was developed using Flutter Framework. It was complemented by the web-based application which was developed using the MERN stack.",
                     style: TextStyle(
                       fontFamily: "Readex Pro",
-                      fontSize: 12,
+                      fontSize: 13,
                     ),
                     textAlign: TextAlign.end,
                   ),
@@ -110,7 +110,7 @@ class _AboutPageState extends State<AboutPage> {
                   children: [
                     Image.asset(
                       "assets/images/development.jpg",
-                      width: 35,
+                      width: 40,
                     ),
                     Text(
                       "DEVELOPMENT",
@@ -130,10 +130,10 @@ class _AboutPageState extends State<AboutPage> {
                   children: [
                     Image.asset(
                       "assets/images/developer.jpg",
-                      width: 35,
+                      width: 40,
                     ),
                     Text(
-                      "VISION",
+                      "DEVELOPER",
                       style: TextStyle(
                           fontFamily: "Readex Pro",
                           fontSize: 12,
@@ -149,7 +149,7 @@ class _AboutPageState extends State<AboutPage> {
                     "The FisherMap PH was developed by John Rommel B. Octavo, a student of the University of the Philippines Los Baños, Institute of Computer Science.",
                     style: TextStyle(
                       fontFamily: "Readex Pro",
-                      fontSize: 12,
+                      fontSize: 13,
                     ),
                   ),
                 )
@@ -172,7 +172,7 @@ class _AboutPageState extends State<AboutPage> {
                 "I would like to acknowledge the valuable contributions of those who have helped me finish my Special Problem (SP) topic.",
                 style: TextStyle(
                   fontFamily: "Readex Pro",
-                  fontSize: 12,
+                  fontSize: 13,
                 ),
               ),
               SizedBox(
@@ -182,7 +182,7 @@ class _AboutPageState extends State<AboutPage> {
                 "To Assoc. Prof. Concepcion L. Khan, my SP adviser, for her insights and opinions that lead to the successful development of the FisherMap PH mobile and website application.",
                 style: TextStyle(
                   fontFamily: "Readex Pro",
-                  fontSize: 12,
+                  fontSize: 13,
                 ),
               ),
               SizedBox(
@@ -192,7 +192,7 @@ class _AboutPageState extends State<AboutPage> {
                 "To the Department of Science and Technology through the Science Education Institute for helping me through their scholarship program.",
                 style: TextStyle(
                   fontFamily: "Readex Pro",
-                  fontSize: 12,
+                  fontSize: 13,
                 ),
               ),
               SizedBox(
@@ -202,7 +202,7 @@ class _AboutPageState extends State<AboutPage> {
                 "To my family and friends that sustain my sanity in this crucial years of my college journey. To my late brother, Paul Jake Octavo, who inspires me to keep striving and be faithful in believing in God. ",
                 style: TextStyle(
                   fontFamily: "Readex Pro",
-                  fontSize: 12,
+                  fontSize: 13,
                 ),
               ),
               SizedBox(
@@ -212,7 +212,7 @@ class _AboutPageState extends State<AboutPage> {
                 "To all those who never doubt in my ability. To all who still believes in me. Thank you for giving me even a streak of hope in myself. ",
                 style: TextStyle(
                   fontFamily: "Readex Pro",
-                  fontSize: 12,
+                  fontSize: 13,
                 ),
               ),
               SizedBox(
@@ -222,7 +222,7 @@ class _AboutPageState extends State<AboutPage> {
                 "And most importantly to the Almighty God who is my source of courage and faith. For giving me the grace to deal with the hardships of life. For sustaining me despite me being so sinful.",
                 style: TextStyle(
                   fontFamily: "Readex Pro",
-                  fontSize: 12,
+                  fontSize: 13,
                 ),
               ),
               SizedBox(
@@ -232,7 +232,7 @@ class _AboutPageState extends State<AboutPage> {
                 "May God be glorified in this work!",
                 style: TextStyle(
                   fontFamily: "Readex Pro",
-                  fontSize: 12,
+                  fontSize: 13,
                 ),
               ),
             ],

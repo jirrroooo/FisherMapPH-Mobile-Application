@@ -155,7 +155,7 @@ class _DistressCallScreenState extends State<DistressCallScreen> {
                     shadowColor: Colors.transparent,
                   ),
                   child: const Text(
-                    'Register',
+                    'Send Distress Message',
                     style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 23,

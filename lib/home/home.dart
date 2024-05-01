@@ -46,23 +46,23 @@ class _HomepageState extends State<Homepage> {
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.explore),
+            icon: Icon(Icons.explore_rounded),
             label: 'Fisher Map',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.warning),
+            icon: Icon(Icons.warning_rounded),
             label: 'Alert',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home_rounded),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.location_on),
+            icon: Icon(Icons.location_on_rounded),
             label: 'Location',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.ring_volume),
+            icon: Icon(Icons.ring_volume_rounded),
             label: 'Emergency',
           ),
         ],

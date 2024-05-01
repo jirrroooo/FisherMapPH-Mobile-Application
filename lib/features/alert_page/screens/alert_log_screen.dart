@@ -51,7 +51,7 @@ class _AlertLogPageState extends State<AlertLogPage> {
                 'Storm Alert (08/15/2001 - 10:59 AM)',
                 style: TextStyle(
                     fontFamily: "Readex Pro",
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w700,
                     fontSize: 14),
               ),
               shape: RoundedRectangleBorder(

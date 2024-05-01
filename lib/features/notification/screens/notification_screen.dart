@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class LocationLogPage extends StatefulWidget {
-  const LocationLogPage({super.key});
+class NotificationScreen extends StatefulWidget {
+  const NotificationScreen({super.key});
 
   @override
-  State<LocationLogPage> createState() => _LocationLogPageState();
+  State<NotificationScreen> createState() => _NotificationScreenState();
 }
 
-class _LocationLogPageState extends State<LocationLogPage> {
+class _NotificationScreenState extends State<NotificationScreen> {
   TextStyle tableTitleStyle = TextStyle(
       fontFamily: "Readex Pro", fontSize: 12, fontWeight: FontWeight.w500);
 
@@ -18,7 +18,7 @@ class _LocationLogPageState extends State<LocationLogPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Location Logs",
+          "Notifications",
           style: TextStyle(
               fontFamily: "Readex Pro",
               fontSize: 22,
@@ -40,34 +40,15 @@ class _LocationLogPageState extends State<LocationLogPage> {
                   borderRadius: BorderRadius.circular(16),
                   side: BorderSide(color: Colors.grey, width: 2)),
               leading: Icon(
-                Icons.warning_outlined,
-                color: Colors.red,
+                Icons.notifications_active,
+                color: Color.fromRGBO(255, 0, 0, 1),
               ),
               title: Text(
-                'Tiwi, Albay (08/15/2001 - 10:59 AM)',
+                'Storm Alert (08/15/2001 - 10:59 AM)',
                 style: TextStyle(
                     fontFamily: "Readex Pro",
                     fontWeight: FontWeight.w700,
                     fontSize: 14),
-              ),
-              subtitle: Row(
-                children: [
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Icon(
-                    Icons.fiber_manual_record,
-                    size: 10,
-                    color: Colors.grey,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    'Latitude: 20.1234, Longitude: 20.1234',
-                    style: TextStyle(fontFamily: "Readex Pro", fontSize: 12),
-                  ),
-                ],
               ),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
@@ -96,26 +77,45 @@ class _LocationLogPageState extends State<LocationLogPage> {
                   rows: <DataRow>[
                     DataRow(
                       cells: <DataCell>[
-                        DataCell(Text('Latitude', style: tableValStyle)),
-                        DataCell(Text('6.1234', style: tableValStyle)),
+                        DataCell(Text('Description', style: tableValStyle)),
+                        DataCell(Text('Expect Heavy Rain and High Sea Wave',
+                            style: tableValStyle)),
                       ],
                     ),
                     DataRow(
                       cells: <DataCell>[
-                        DataCell(Text('Longitude', style: tableValStyle)),
-                        DataCell(Text('102.4283', style: tableValStyle)),
+                        DataCell(Text('Instruction', style: tableValStyle)),
+                        DataCell(Text(
+                            'Please go back to the seashore immediately!',
+                            style: tableValStyle)),
                       ],
                     ),
                     DataRow(
                       cells: <DataCell>[
-                        DataCell(Text('Sea Depth', style: tableValStyle)),
-                        DataCell(Text('32.7384', style: tableValStyle)),
+                        DataCell(Text('Classification', style: tableValStyle)),
+                        DataCell(Text('High', style: tableValStyle)),
+                      ],
+                    ),
+                    DataRow(
+                      cells: <DataCell>[
+                        DataCell(Text('Location', style: tableValStyle)),
+                        DataCell(
+                            Text('[121.763, 16.739]', style: tableValStyle)),
+                      ],
+                    ),
+                    DataRow(
+                      cells: <DataCell>[
+                        DataCell(Text('Radius', style: tableValStyle)),
+                        DataCell(Text('10 Kilometers', style: tableValStyle)),
+                      ],
+                    ),
+                    DataRow(
+                      cells: <DataCell>[
+                        DataCell(Text('Status', style: tableValStyle)),
+                        DataCell(Text('Active', style: tableValStyle)),
                       ],
                     ),
                   ],
-                ),
-                SizedBox(
-                  height: 10,
                 ),
                 ElevatedButton(
                     onPressed: () => {},

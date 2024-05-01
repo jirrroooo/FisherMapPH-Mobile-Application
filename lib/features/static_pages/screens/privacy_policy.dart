@@ -12,7 +12,7 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
       fontFamily: "Readex Pro", fontSize: 14, fontWeight: FontWeight.w700);
   var textStyle = TextStyle(
     fontFamily: "Readex Pro",
-    fontSize: 12,
+    fontSize: 13,
   );
 
   @override
