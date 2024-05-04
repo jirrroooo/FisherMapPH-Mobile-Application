@@ -392,27 +392,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             password: passwordController1.text.trim(),
                             confirm_password: passwordController2.text.trim()))
                       }),
-
-              // SizedBox(height: 30),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     const Text('Read the Privacy Policy here',
-              //         style: TextStyle(
-              //             fontSize: 12,
-              //             fontFamily: 'Readex Pro',
-              //             color: Colors.black)),
-              //     IconButton(
-              //         style: IconButton.styleFrom(
-              //           padding: EdgeInsets.zero,
-              //           minimumSize: Size(30, 10),
-              //           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              //         ),
-              //         icon: Icon(Icons.keyboard_arrow_right,
-              //             color: Color.fromRGBO(171, 83, 50, 1)),
-              //         onPressed: () => {}),
-              //   ],
-              // ),
             ]),
           ));
         },

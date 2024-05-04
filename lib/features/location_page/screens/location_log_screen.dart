@@ -64,6 +64,20 @@ class _LocationLogPageState extends State<LocationLogPage> {
 
           final data = state.location_logs;
 
+          if (data.length == 0) {
+            return Center(
+              child: Text(
+                "No Location Logs Yet",
+                style: TextStyle(
+                    fontFamily: "Readex Pro",
+                    fontSize: 30,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey),
+                textAlign: TextAlign.center,
+              ),
+            );
+          }
+
           return Padding(
             padding: const EdgeInsets.all(10.0),
             child: ListView.builder(
@@ -150,7 +164,8 @@ class _LocationLogPageState extends State<LocationLogPage> {
                         DataRow(
                           cells: <DataCell>[
                             DataCell(Text('Sea Depth', style: tableValStyle)),
-                            DataCell(Text(data[i].sea_depth.toString(),
+                            DataCell(Text(
+                                '${data[i].sea_depth.toStringAsFixed(4)} m',
                                 style: tableValStyle)),
                           ],
                         ),

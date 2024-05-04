@@ -1,5 +1,8 @@
+import 'package:fishermap_ph_mobileapp/features/distress_call_page/bloc/distress_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:intl/intl.dart';
 
 class DistressCallLogsScreen extends StatefulWidget {
   const DistressCallLogsScreen({super.key});
@@ -14,11 +17,14 @@ class _DistressCallLogsScreenState extends State<DistressCallLogsScreen> {
 
   TextStyle tableValStyle = TextStyle(fontFamily: "Readex Pro", fontSize: 12);
 
+  final DateFormat formatter = DateFormat('MM/d/y - hh:mm a');
+
   @override
   void initState() {
     super.initState();
 
     _isVerified();
+    context.read<DistressBloc>().add(DistressFetched());
   }
 
   void _isVerified() async {
@@ -42,102 +48,135 @@ class _DistressCallLogsScreenState extends State<DistressCallLogsScreen> {
         ),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: ListView.builder(
-          physics: ClampingScrollPhysics(),
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
-          itemCount: 5,
-          itemBuilder: (BuildContext context, int index) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: ExpansionTile(
-              collapsedShape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                  side: BorderSide(color: Colors.grey, width: 2)),
-              leading: Icon(
-                Icons.sos,
-                color: Colors.red,
-              ),
-              title: Text(
-                'Stranded (08/15/2001 - 10:59 AM)',
+      body: BlocBuilder<DistressBloc, DistressState>(
+        builder: (context, state) {
+          if (state is DistressFetchedFailure) {
+            return Center(
+              child: Text(state.error),
+            );
+          }
+
+          if (state is! DistressFetchedSuccess) {
+            return const Center(
+              child: CircularProgressIndicator.adaptive(),
+            );
+          }
+
+          final data = state.distress_logs;
+
+          if (data.length == 0) {
+            return Center(
+              child: Text(
+                "No Distress Call Logs Yet",
                 style: TextStyle(
                     fontFamily: "Readex Pro",
-                    fontWeight: FontWeight.w700,
-                    fontSize: 14),
+                    fontSize: 30,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey),
+                textAlign: TextAlign.center,
               ),
-              subtitle: Row(
-                children: [
-                  SizedBox(
-                    width: 10,
+            );
+          }
+
+          return Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: ListView.builder(
+              physics: ClampingScrollPhysics(),
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              itemCount: data.length,
+              itemBuilder: (BuildContext context, int i) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: ExpansionTile(
+                  collapsedShape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      side: BorderSide(color: Colors.grey, width: 2)),
+                  leading: Icon(
+                    Icons.sos,
+                    color: Colors.red,
                   ),
-                  Icon(
-                    Icons.fiber_manual_record,
-                    size: 10,
-                    color: Colors.grey,
+                  title: Text(
+                    '${data[i].type} (${formatter.format(data[i].createdAt)})',
+                    style: TextStyle(
+                        fontFamily: "Readex Pro",
+                        fontWeight: FontWeight.w700,
+                        fontSize: 14),
                   ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    'Latitude: 20.1234, Longitude: 20.1234',
-                    style: TextStyle(fontFamily: "Readex Pro", fontSize: 12),
-                  ),
-                ],
-              ),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                  side: BorderSide(
-                      color: Color.fromRGBO(47, 51, 64, 1), width: 2)),
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  subtitle: Row(
                     children: [
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Icon(
+                        Icons.fiber_manual_record,
+                        size: 10,
+                        color: Colors.grey,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
                       Text(
-                        "Distress Message:",
-                        style: TextStyle(
-                            fontFamily: "Readex Pro",
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.start,
+                        'Latitude: ${data[i].latitude}, Longitude: ${data[i].longitude}',
+                        style:
+                            TextStyle(fontFamily: "Readex Pro", fontSize: 12),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Tulong po mga sir. Nasiraan po ako dito sa gitna ng dagat. Naiwan po ako ng mga kasamahan ko. Di ko na po sila makita.",
-                        style: TextStyle(
-                          fontFamily: "Readex Pro",
-                          fontSize: 12,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          Text("Status: ",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12,
-                                  fontFamily: "Readex Pro")),
-                          Text("Responded ",
-                              style: TextStyle(
-                                  fontSize: 12, fontFamily: "Readex Pro")),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      )
                     ],
                   ),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      side: BorderSide(
+                          color: Color.fromRGBO(47, 51, 64, 1), width: 2)),
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Distress Message:",
+                            style: TextStyle(
+                                fontFamily: "Readex Pro",
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.start,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            data[i].content,
+                            style: TextStyle(
+                              fontFamily: "Readex Pro",
+                              fontSize: 12,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: [
+                              Text("Status: ",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                      fontFamily: "Readex Pro")),
+                              Text(data[i].status,
+                                  style: TextStyle(
+                                      fontSize: 12, fontFamily: "Readex Pro")),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5,
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

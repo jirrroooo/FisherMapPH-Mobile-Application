@@ -7,4 +7,7 @@ class Credentials {
   final String LOCATION_LOG = "/logs/location/";
   final String ALERT_LOG = "/logs/alert/";
   final String USER = "/users";
+  final String DISTRESS_LOG = "/reports/user/";
+  final String CONTACT_FETCHED = "/contact/user/";
+  final String CONTACT_CREATE = "/contact/new";
 }

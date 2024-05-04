@@ -85,10 +85,14 @@ class _HomepageState extends State<Homepage> {
 
           final data = state.infoModel;
 
-          final first_name = data.first_name;
-          final last_name = data.last_name;
-          final DateTime createdAt = data.createdAt;
-          final bool isAuthenticated = data.isAuthenticated;
+          final first_name =
+              data.first_name == Null ? "Fisherfolk" : data.first_name;
+          final last_name =
+              data.last_name == Null ? "Philippines" : data.last_name;
+          final DateTime createdAt =
+              data.createdAt == Null ? DateTime.now() : data.createdAt;
+          final bool isAuthenticated =
+              data.isAuthenticated == Null ? false : data.isAuthenticated;
 
           return Drawer(
             child: SingleChildScrollView(

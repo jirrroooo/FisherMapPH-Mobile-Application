@@ -67,6 +67,20 @@ class _AlertLogPageState extends State<AlertLogPage> {
 
           final data = state.alert_logs;
 
+          if (data.length == 0) {
+            return Center(
+              child: Text(
+                "No Alert Logs Yet",
+                style: TextStyle(
+                    fontFamily: "Readex Pro",
+                    fontSize: 30,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey),
+                textAlign: TextAlign.center,
+              ),
+            );
+          }
+
           return Padding(
             padding: const EdgeInsets.all(10.0),
             child: ListView.builder(
