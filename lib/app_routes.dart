@@ -9,6 +9,8 @@ import 'package:fishermap_ph_mobileapp/features/profile/screens/profile_screen.d
 import 'package:fishermap_ph_mobileapp/features/prompt_page/error_screen.dart';
 import 'package:fishermap_ph_mobileapp/features/prompt_page/loading_screen.dart';
 import 'package:fishermap_ph_mobileapp/features/prompt_page/register_success_screen.dart';
+import 'package:fishermap_ph_mobileapp/features/prompt_page/sent_distress_signal_screen.dart';
+import 'package:fishermap_ph_mobileapp/features/sea_map/screens/sea_map_screen.dart';
 import 'package:fishermap_ph_mobileapp/features/settings/screens/settings_page.dart';
 import 'package:fishermap_ph_mobileapp/features/static_pages/screens/about.dart';
 import 'package:fishermap_ph_mobileapp/features/static_pages/screens/credits.dart';
@@ -32,6 +34,7 @@ class AppRoutes {
       "/loading": (BuildContext context) => const LoadingScreen(),
       "/error": (BuildContext context) => const ErrorScreen(),
       "/homepage": (BuildContext context) => const Homepage(),
+      "/sea-map": (BuildContext context) => const SeaMapScreen(),
       "/alerts": (BuildContext context) => const AlertLogPage(),
       "/location": (BuildContext context) => const LocationLogPage(),
       "/distress-call-logs": (BuildContext context) =>
@@ -43,6 +46,8 @@ class AppRoutes {
       "/credits": (BuildContext context) => const CreditsPage(),
       "/about": (BuildContext context) => const AboutPage(),
       "/privacy-policy": (BuildContext context) => const PrivacyPolicyPage(),
+      "/send-distress-signal": (BuildContext context) =>
+          const SentDistressSignalScreen()
     };
   }
 

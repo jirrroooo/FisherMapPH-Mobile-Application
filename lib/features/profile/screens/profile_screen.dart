@@ -308,94 +308,101 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(
                     height: 15,
                   ),
-                  DropdownMenu<CivilStatus>(
-                    enabled: isEdit,
-                    width: 380,
-                    leadingIcon: Icon(Icons.assignment),
-                    enableSearch: true,
-                    controller: civilStatusController,
-                    enableFilter: false,
-                    requestFocusOnTap: true,
-                    hintText: "Enter Civil Status",
-                    onSelected: (CivilStatus? civilStatus) {
-                      setState(() {
-                        _selectedCivilStatus = civilStatus;
-                      });
-                    },
-                    inputDecorationTheme: InputDecorationTheme(
-                      fillColor: Colors.white,
-                      filled: true,
-                      contentPadding: const EdgeInsets.all(27),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          color: Color.fromRGBO(59, 58, 69, 1),
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          color: Color.fromRGBO(0, 0, 0, 0.498),
-                          width: 3,
-                        ),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    dropdownMenuEntries:
-                        CivilStatus.values.map<DropdownMenuEntry<CivilStatus>>(
-                      (CivilStatus civilStatus) {
-                        return DropdownMenuEntry<CivilStatus>(
-                            value: civilStatus,
-                            label: civilStatus.label,
-                            enabled: true);
+                  Center(
+                    child: DropdownMenu<CivilStatus>(
+                      enabled: isEdit,
+                      width: 300,
+                      leadingIcon: Icon(Icons.assignment),
+                      enableSearch: true,
+                      controller: civilStatusController,
+                      enableFilter: false,
+                      requestFocusOnTap: true,
+                      hintText: "Enter Civil Status",
+                      onSelected: (CivilStatus? civilStatus) {
+                        setState(() {
+                          _selectedCivilStatus = civilStatus;
+                          civilStatusController.text = _selectedCivilStatus;
+                        });
                       },
-                    ).toList(),
+                      inputDecorationTheme: InputDecorationTheme(
+                        fillColor: Colors.white,
+                        filled: true,
+                        contentPadding: const EdgeInsets.all(27),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: Color.fromRGBO(59, 58, 69, 1),
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: Color.fromRGBO(0, 0, 0, 0.498),
+                            width: 3,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      dropdownMenuEntries: CivilStatus.values
+                          .map<DropdownMenuEntry<CivilStatus>>(
+                        (CivilStatus civilStatus) {
+                          return DropdownMenuEntry<CivilStatus>(
+                              value: civilStatus,
+                              label: civilStatus.label,
+                              enabled: true);
+                        },
+                      ).toList(),
+                    ),
                   ),
                   SizedBox(
                     height: 15,
                   ),
-                  DropdownMenu<VesselType>(
-                    enabled: isEdit,
-                    width: 380,
-                    leadingIcon: Icon(Icons.directions_boat),
-                    enableSearch: true,
-                    controller: fishingVesselTypeController,
-                    enableFilter: false,
-                    requestFocusOnTap: true,
-                    hintText: "Enter Vessel Type",
-                    onSelected: (VesselType? vesselType) {
-                      setState(() {
-                        _selectedVesselType = vesselType;
-                      });
-                    },
-                    inputDecorationTheme: InputDecorationTheme(
-                      fillColor: Colors.white,
-                      filled: true,
-                      contentPadding: const EdgeInsets.all(27),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          color: Color.fromRGBO(59, 58, 69, 1),
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(
-                          color: Color.fromRGBO(0, 0, 0, 0.498),
-                          width: 3,
-                        ),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    dropdownMenuEntries:
-                        VesselType.values.map<DropdownMenuEntry<VesselType>>(
-                      (VesselType vesselType) {
-                        return DropdownMenuEntry<VesselType>(
-                            value: vesselType,
-                            label: vesselType.label,
-                            enabled: true);
+                  Center(
+                    child: DropdownMenu<VesselType>(
+                      enabled: isEdit,
+                      width: 300,
+                      leadingIcon: Icon(Icons.directions_boat),
+                      enableSearch: true,
+                      controller: fishingVesselTypeController,
+                      enableFilter: false,
+                      requestFocusOnTap: true,
+                      hintText: "Enter Vessel Type",
+                      onSelected: (VesselType? vesselType) {
+                        setState(() {
+                          _selectedVesselType = vesselType;
+                          fishingVesselTypeController.text =
+                              _selectedVesselType;
+                        });
                       },
-                    ).toList(),
+                      inputDecorationTheme: InputDecorationTheme(
+                        fillColor: Colors.white,
+                        filled: true,
+                        contentPadding: const EdgeInsets.all(27),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: Color.fromRGBO(59, 58, 69, 1),
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: Color.fromRGBO(0, 0, 0, 0.498),
+                            width: 3,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      dropdownMenuEntries:
+                          VesselType.values.map<DropdownMenuEntry<VesselType>>(
+                        (VesselType vesselType) {
+                          return DropdownMenuEntry<VesselType>(
+                              value: vesselType,
+                              label: vesselType.label,
+                              enabled: true);
+                        },
+                      ).toList(),
+                    ),
                   ),
                   SizedBox(
                     height: 30,

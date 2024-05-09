@@ -8,6 +8,8 @@ import 'package:fishermap_ph_mobileapp/features/location_page/bloc/location_bloc
 import 'package:fishermap_ph_mobileapp/features/location_page/repository/location_repository.dart';
 import 'package:fishermap_ph_mobileapp/features/profile/bloc/profile_bloc.dart';
 import 'package:fishermap_ph_mobileapp/features/profile/repository/profile_repository.dart';
+import 'package:fishermap_ph_mobileapp/features/sea_map/bloc/sea_map_bloc.dart';
+import 'package:fishermap_ph_mobileapp/features/sea_map/repository/sea_map_repository.dart';
 import 'package:fishermap_ph_mobileapp/features/settings/bloc/setting_bloc.dart';
 import 'package:fishermap_ph_mobileapp/features/settings/repository/setting_repository.dart';
 import 'package:fishermap_ph_mobileapp/home/bloc/home_bloc.dart';
@@ -48,6 +50,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<SettingBloc>(
           create: (BuildContext context) => SettingBloc(SettingRepository()),
+        ),
+        BlocProvider<SeaMapBloc>(
+          create: (BuildContext context) => SeaMapBloc(SeaMapRepository()),
         ),
       ],
       child: MaterialApp(

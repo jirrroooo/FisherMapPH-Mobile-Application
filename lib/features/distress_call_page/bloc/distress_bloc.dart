@@ -10,7 +10,26 @@ class DistressBloc extends Bloc<DistressEvent, DistressState> {
   final DistressRepository distressRepository;
 
   DistressBloc(this.distressRepository) : super(DistressInitial()) {
+    on<SendDistressSignal>(_sendDistressSignal);
     on<DistressFetched>(_getDistressLogs);
+  }
+
+  void _sendDistressSignal(SendDistressSignal event, Emitter emit) async {
+    emit(SendDistressSignalLoading());
+
+    try {
+      final sendStatus =
+          await distressRepository.sendDistressCall(event.type, event.content);
+
+      if (!sendStatus) {
+        emit(SendDistressSignalFailure("Distress Call Failed to Send."));
+        return;
+      }
+
+      emit(SendDistressSignalSuccess());
+    } catch (e) {
+      emit(SendDistressSignalFailure(e.toString()));
+    }
   }
 
   void _getDistressLogs(DistressFetched event, Emitter emit) async {

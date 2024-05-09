@@ -18,3 +18,13 @@ final class DistressFetchedFailure extends DistressState {
 }
 
 final class DistressFetchedLoading extends DistressState {}
+
+final class SendDistressSignalSuccess extends DistressState {}
+
+final class SendDistressSignalLoading extends DistressState {}
+
+final class SendDistressSignalFailure extends DistressState {
+  final String error;
+
+  SendDistressSignalFailure(this.error);
+}

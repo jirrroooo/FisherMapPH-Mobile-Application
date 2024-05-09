@@ -1,28 +1,45 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 class LocationModel {
   final double longitude;
   final double latitude;
   final DateTime timestamp;
-  final double sea_depth;
+  final double accuracy;
+  final double altitude;
+  final double heading;
+  final double speed;
+  final double speedAccuracy;
   LocationModel({
     required this.longitude,
     required this.latitude,
     required this.timestamp,
-    required this.sea_depth,
+    required this.accuracy,
+    required this.altitude,
+    required this.heading,
+    required this.speed,
+    required this.speedAccuracy,
   });
 
   LocationModel copyWith({
     double? longitude,
     double? latitude,
     DateTime? timestamp,
-    double? sea_depth,
+    double? accuracy,
+    double? altitude,
+    double? heading,
+    double? speed,
+    double? speedAccuracy,
   }) {
     return LocationModel(
       longitude: longitude ?? this.longitude,
       latitude: latitude ?? this.latitude,
       timestamp: timestamp ?? this.timestamp,
-      sea_depth: sea_depth ?? this.sea_depth,
+      accuracy: accuracy ?? this.accuracy,
+      altitude: altitude ?? this.altitude,
+      heading: heading ?? this.heading,
+      speed: speed ?? this.speed,
+      speedAccuracy: speedAccuracy ?? this.speedAccuracy,
     );
   }
 
@@ -31,7 +48,11 @@ class LocationModel {
       'longitude': longitude,
       'latitude': latitude,
       'timestamp': timestamp.millisecondsSinceEpoch,
-      'sea_depth': sea_depth,
+      'accuracy': accuracy,
+      'altitude': altitude,
+      'heading': heading,
+      'speed': speed,
+      'speedAccuracy': speedAccuracy,
     };
   }
 
@@ -40,7 +61,11 @@ class LocationModel {
       longitude: map['longitude'] as double,
       latitude: map['latitude'] as double,
       timestamp: DateTime.fromMillisecondsSinceEpoch(map['timestamp'] as int),
-      sea_depth: map['sea_depth'] as double,
+      accuracy: map['accuracy'] as double,
+      altitude: map['altitude'] as double,
+      heading: map['heading'] as double,
+      speed: map['speed'] as double,
+      speedAccuracy: map['speedAccuracy'] as double,
     );
   }
 
@@ -51,7 +76,7 @@ class LocationModel {
 
   @override
   String toString() {
-    return 'LocationModel(longitude: $longitude, latitude: $latitude, timestamp: $timestamp, sea_depth: $sea_depth)';
+    return 'LocationModel(longitude: $longitude, latitude: $latitude, timestamp: $timestamp, accuracy: $accuracy, altitude: $altitude, heading: $heading, speed: $speed, speedAccuracy: $speedAccuracy)';
   }
 
   @override
@@ -61,7 +86,11 @@ class LocationModel {
     return other.longitude == longitude &&
         other.latitude == latitude &&
         other.timestamp == timestamp &&
-        other.sea_depth == sea_depth;
+        other.accuracy == accuracy &&
+        other.altitude == altitude &&
+        other.heading == heading &&
+        other.speed == speed &&
+        other.speedAccuracy == speedAccuracy;
   }
 
   @override
@@ -69,6 +98,10 @@ class LocationModel {
     return longitude.hashCode ^
         latitude.hashCode ^
         timestamp.hashCode ^
-        sea_depth.hashCode;
+        accuracy.hashCode ^
+        altitude.hashCode ^
+        heading.hashCode ^
+        speed.hashCode ^
+        speedAccuracy.hashCode;
   }
 }

@@ -11,7 +11,7 @@ class LoadingScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image(
-            image: AssetImage("assets/images/loading.gif"),
+            image: AssetImage("assets/images/fisherman.gif"),
             height: 300,
           ),
           SizedBox(

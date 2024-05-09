@@ -96,16 +96,16 @@ class _LocationLogPageState extends State<LocationLogPage> {
                     color: Colors.red,
                   ),
                   title: Text(
-                    'Tiwi, Albay (${formatter.format(data[i].timestamp)})',
+                    '[Location] (${formatter.format(data[i].timestamp)})',
                     style: TextStyle(
                         fontFamily: "Readex Pro",
                         fontWeight: FontWeight.w700,
-                        fontSize: 14),
+                        fontSize: 12),
                   ),
                   subtitle: Row(
                     children: [
                       SizedBox(
-                        width: 10,
+                        width: 5,
                       ),
                       Icon(
                         Icons.fiber_manual_record,
@@ -113,12 +113,12 @@ class _LocationLogPageState extends State<LocationLogPage> {
                         color: Colors.grey,
                       ),
                       SizedBox(
-                        width: 10,
+                        width: 5,
                       ),
                       Text(
-                        'Latitude: ${data[i].latitude}, Longitude: ${data[i].longitude}',
+                        'Latitude: ${data[i].latitude.toStringAsFixed(4)}, Longitude: ${data[i].longitude.toStringAsFixed(4)}',
                         style:
-                            TextStyle(fontFamily: "Readex Pro", fontSize: 12),
+                            TextStyle(fontFamily: "Readex Pro", fontSize: 10),
                       ),
                     ],
                   ),
@@ -149,23 +149,30 @@ class _LocationLogPageState extends State<LocationLogPage> {
                       rows: <DataRow>[
                         DataRow(
                           cells: <DataCell>[
-                            DataCell(Text('Latitude', style: tableValStyle)),
-                            DataCell(Text(data[i].latitude.toString(),
+                            DataCell(Text('Accuracy', style: tableValStyle)),
+                            DataCell(Text(data[i].accuracy.toStringAsFixed(4),
                                 style: tableValStyle)),
                           ],
                         ),
                         DataRow(
                           cells: <DataCell>[
-                            DataCell(Text('Longitude', style: tableValStyle)),
-                            DataCell(Text(data[i].longitude.toString(),
+                            DataCell(Text('Altitude', style: tableValStyle)),
+                            DataCell(Text(data[i].altitude.toStringAsFixed(4),
                                 style: tableValStyle)),
                           ],
                         ),
                         DataRow(
                           cells: <DataCell>[
-                            DataCell(Text('Sea Depth', style: tableValStyle)),
+                            DataCell(Text('Heading', style: tableValStyle)),
                             DataCell(Text(
-                                '${data[i].sea_depth.toStringAsFixed(4)} m',
+                                '${data[i].heading.toStringAsFixed(4)}',
+                                style: tableValStyle)),
+                          ],
+                        ),
+                        DataRow(
+                          cells: <DataCell>[
+                            DataCell(Text('Speed', style: tableValStyle)),
+                            DataCell(Text('${data[i].speed.toStringAsFixed(4)}',
                                 style: tableValStyle)),
                           ],
                         ),

@@ -29,10 +29,14 @@ class LocationRepository {
 
     for (var d in data) {
       location_logs.add(LocationModel(
-          longitude: double.parse(d["longitude"]),
-          latitude: double.parse(d["latitude"]),
+          longitude: double.parse(d["longitude"].toString()),
+          latitude: double.parse(d["latitude"].toString()),
           timestamp: DateTime.parse(d["timestamp"]),
-          sea_depth: d["sea_depth"]));
+          accuracy: double.parse(d["accuracy"].toString()),
+          altitude: double.parse(d["altitude"].toString()),
+          heading: double.parse(d["heading"].toString()),
+          speed: double.parse(d["speed"].toString()),
+          speedAccuracy: double.parse(d["speed_accuracy"].toString())));
     }
 
     return location_logs;
