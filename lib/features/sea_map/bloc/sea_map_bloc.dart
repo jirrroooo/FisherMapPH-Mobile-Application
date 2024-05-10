@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:fishermap_ph_mobileapp/features/distress_call_page/model/position_model.dart';
 import 'package:fishermap_ph_mobileapp/features/sea_map/repository/sea_map_repository.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:meta/meta.dart';
 
 part 'sea_map_event.dart';

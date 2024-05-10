@@ -1,8 +1,9 @@
+import 'package:fishermap_ph_mobileapp/features/distress_call_page/model/position_model.dart';
 import 'package:fishermap_ph_mobileapp/features/location_page/model/location_model.dart';
 import 'package:geolocator/geolocator.dart';
 
 class SeaMapRepository {
-  Future<Position> determinePosition() async {
+  Future<PositionModel> determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -37,6 +38,19 @@ class SeaMapRepository {
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
 
-    return await Geolocator.getCurrentPosition();
+    var currentLocation = await Geolocator.getCurrentPosition();
+
+    PositionModel positionModel = PositionModel(
+        user_id: "",
+        longitude: currentLocation.longitude,
+        latitude: currentLocation.latitude,
+        timestamp: DateTime.now(),
+        accuracy: currentLocation.accuracy,
+        altitude: currentLocation.altitude,
+        heading: currentLocation.heading,
+        speed: currentLocation.speed,
+        speed_accuracy: currentLocation.speedAccuracy);
+
+    return positionModel;
   }
 }

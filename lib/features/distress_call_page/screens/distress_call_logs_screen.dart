@@ -1,4 +1,5 @@
 import 'package:fishermap_ph_mobileapp/features/distress_call_page/bloc/distress_bloc.dart';
+import 'package:fishermap_ph_mobileapp/functions/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -17,7 +18,7 @@ class _DistressCallLogsScreenState extends State<DistressCallLogsScreen> {
 
   TextStyle tableValStyle = TextStyle(fontFamily: "Readex Pro", fontSize: 12);
 
-  final DateFormat formatter = DateFormat('MM/d/y - hh:mm a');
+  PSTDateFormat pstDateFormat = PSTDateFormat();
 
   @override
   void initState() {
@@ -56,7 +57,12 @@ class _DistressCallLogsScreenState extends State<DistressCallLogsScreen> {
             );
           }
 
+          if (state is DistressInitial) {
+            context.read<DistressBloc>().add(DistressFetched());
+          }
+
           if (state is! DistressFetchedSuccess) {
+            print("===> " + state.toString());
             return const Center(
               child: CircularProgressIndicator.adaptive(),
             );
@@ -96,7 +102,7 @@ class _DistressCallLogsScreenState extends State<DistressCallLogsScreen> {
                     color: Colors.red,
                   ),
                   title: Text(
-                    '${data[i].type} (${formatter.format(data[i].createdAt)})',
+                    '${data[i].type} (${pstDateFormat.dateString(data[i].createdAt)})',
                     style: TextStyle(
                         fontFamily: "Readex Pro",
                         fontWeight: FontWeight.w700,
@@ -116,7 +122,7 @@ class _DistressCallLogsScreenState extends State<DistressCallLogsScreen> {
                         width: 10,
                       ),
                       Text(
-                        'Latitude: ${data[i].latitude}, Longitude: ${data[i].longitude}',
+                        'Latitude: ${data[i].latitude.toStringAsFixed(4)}, Longitude: ${data[i].longitude.toStringAsFixed(4)}',
                         style:
                             TextStyle(fontFamily: "Readex Pro", fontSize: 12),
                       ),

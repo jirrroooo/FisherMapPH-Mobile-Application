@@ -1,6 +1,7 @@
 import 'package:fishermap_ph_mobileapp/features/alert_page/bloc/alert_bloc.dart';
 import 'package:fishermap_ph_mobileapp/features/location_page/bloc/location_bloc.dart';
 import 'package:fishermap_ph_mobileapp/features/sea_map/bloc/sea_map_bloc.dart';
+import 'package:fishermap_ph_mobileapp/functions/date_format.dart';
 import 'package:fishermap_ph_mobileapp/home/bloc/home_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,7 +19,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   MapController _mapController = MapController();
-  final DateFormat formatter = DateFormat('MM/d/y - hh:mm a');
+
+  PSTDateFormat pstDateFormat = PSTDateFormat();
 
   bool alertBtn = true;
   bool locationBtn = true;
@@ -170,8 +172,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 "Latitude", data.latitude.toStringAsFixed(4)),
                             currentPos(
                                 "Longitude", data.longitude.toStringAsFixed(4)),
-                            currentPos(
-                                "Timestamp", formatter.format(data.timestamp)),
+                            currentPos("Timestamp",
+                                pstDateFormat.dateString(data.timestamp)),
                             currentPos(
                                 "Altitude", data.altitude.toStringAsFixed(4)),
                             currentPos("Speed", data.speed.toStringAsFixed(4)),
@@ -666,7 +668,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         child: Column(
                                           children: [
                                             Text(
-                                              "[Location] (${formatter.format(data[i].timestamp)})",
+                                              "[Location] (${pstDateFormat.dateString(data[i].timestamp)})",
                                               style: TextStyle(
                                                   fontFamily: "Readex Pro",
                                                   fontSize: 14,

@@ -11,3 +11,5 @@ final class SendDistressSignal extends DistressEvent {
 
   SendDistressSignal({required this.type, required this.content});
 }
+
+final class SendDistressInitial extends DistressEvent {}

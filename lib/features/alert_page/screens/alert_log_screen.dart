@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:fishermap_ph_mobileapp/features/alert_page/bloc/alert_bloc.dart';
+import 'package:fishermap_ph_mobileapp/functions/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,7 +21,7 @@ class _AlertLogPageState extends State<AlertLogPage> {
 
   TextStyle tableValStyle = TextStyle(fontFamily: "Readex Pro", fontSize: 12);
 
-  final DateFormat formatter = DateFormat('MM/d/y - hh:mm a');
+  PSTDateFormat pstDateFormat = PSTDateFormat();
 
   @override
   void initState() {
@@ -99,7 +100,7 @@ class _AlertLogPageState extends State<AlertLogPage> {
                     color: Colors.red,
                   ),
                   title: Text(
-                    '${data[i].title} (${formatter.format(data[i].effective)})',
+                    '${data[i].title} (${pstDateFormat.dateString(data[i].effective)})',
                     style: TextStyle(
                         fontFamily: "Readex Pro",
                         fontWeight: FontWeight.w700,

@@ -9,7 +9,6 @@ import 'package:fishermap_ph_mobileapp/features/profile/screens/profile_screen.d
 import 'package:fishermap_ph_mobileapp/features/prompt_page/error_screen.dart';
 import 'package:fishermap_ph_mobileapp/features/prompt_page/loading_screen.dart';
 import 'package:fishermap_ph_mobileapp/features/prompt_page/register_success_screen.dart';
-import 'package:fishermap_ph_mobileapp/features/prompt_page/sent_distress_signal_screen.dart';
 import 'package:fishermap_ph_mobileapp/features/sea_map/screens/sea_map_screen.dart';
 import 'package:fishermap_ph_mobileapp/features/settings/screens/settings_page.dart';
 import 'package:fishermap_ph_mobileapp/features/static_pages/screens/about.dart';
@@ -46,8 +45,6 @@ class AppRoutes {
       "/credits": (BuildContext context) => const CreditsPage(),
       "/about": (BuildContext context) => const AboutPage(),
       "/privacy-policy": (BuildContext context) => const PrivacyPolicyPage(),
-      "/send-distress-signal": (BuildContext context) =>
-          const SentDistressSignalScreen()
     };
   }
 

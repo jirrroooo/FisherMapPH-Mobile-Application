@@ -1,7 +1,6 @@
-import 'package:fishermap_ph_mobileapp/features/location_page/bloc/location_bloc.dart';
 import 'package:fishermap_ph_mobileapp/features/sea_map/bloc/sea_map_bloc.dart';
 import 'package:fishermap_ph_mobileapp/features/sea_map/repository/sea_map_repository.dart';
-import 'package:fishermap_ph_mobileapp/features/sea_map/screens/example_popup.dart';
+import 'package:fishermap_ph_mobileapp/functions/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -20,7 +19,8 @@ class SeaMapScreen extends StatefulWidget {
 class _SeaMapScreenState extends State<SeaMapScreen> {
   MapController _mapController = MapController();
   PopupController _popupController = PopupController();
-  final DateFormat formatter = DateFormat('MM/d/y - hh:mm a');
+
+  PSTDateFormat pstDateFormat = PSTDateFormat();
 
   @override
   void initState() {
@@ -139,7 +139,7 @@ class _SeaMapScreenState extends State<SeaMapScreen> {
                                                         .toStringAsFixed(4)),
                                                 currentPos(
                                                     "Timestamp",
-                                                    formatter.format(
+                                                    pstDateFormat.dateString(
                                                         data.timestamp)),
                                                 currentPos(
                                                     "Altitude",

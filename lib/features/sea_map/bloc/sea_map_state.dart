@@ -8,7 +8,7 @@ final class SeaMapInitial extends SeaMapState {}
 final class SeaMapLocationFetchedLoading extends SeaMapState {}
 
 final class SeaMapLocationFetchedSuccess extends SeaMapState {
-  final Position currentLocation;
+  final PositionModel currentLocation;
 
   SeaMapLocationFetchedSuccess({required this.currentLocation});
 }

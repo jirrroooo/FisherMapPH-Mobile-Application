@@ -1,4 +1,5 @@
 import 'package:fishermap_ph_mobileapp/features/location_page/bloc/location_bloc.dart';
+import 'package:fishermap_ph_mobileapp/functions/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -17,7 +18,7 @@ class _LocationLogPageState extends State<LocationLogPage> {
 
   TextStyle tableValStyle = TextStyle(fontFamily: "Readex Pro", fontSize: 12);
 
-  final DateFormat formatter = DateFormat('MM/d/y - hh:mm a');
+  PSTDateFormat pstDateFormat = PSTDateFormat();
 
   @override
   void initState() {
@@ -96,7 +97,7 @@ class _LocationLogPageState extends State<LocationLogPage> {
                     color: Colors.red,
                   ),
                   title: Text(
-                    '[Location] (${formatter.format(data[i].timestamp)})',
+                    '[Location] (${pstDateFormat.dateString(data[i].timestamp)})',
                     style: TextStyle(
                         fontFamily: "Readex Pro",
                         fontWeight: FontWeight.w700,

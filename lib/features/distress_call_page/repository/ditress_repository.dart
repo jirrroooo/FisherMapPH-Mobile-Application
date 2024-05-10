@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:fishermap_ph_mobileapp/data/credentials.dart';
 import 'package:fishermap_ph_mobileapp/data/secure_storage.dart';
 import 'package:fishermap_ph_mobileapp/features/distress_call_page/model/distress_log_model.dart';
+import 'package:fishermap_ph_mobileapp/features/distress_call_page/model/position_model.dart';
 import 'package:fishermap_ph_mobileapp/features/sea_map/repository/sea_map_repository.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
@@ -41,8 +42,8 @@ class DistressRepository {
           content: d["report"]["content"],
           status: status.toString(),
           createdAt: DateTime.parse(d["report"]["createdAt"]),
-          latitude: double.parse(d["positionInfo"]["latitude"]),
-          longitude: double.parse(d["positionInfo"]["longitude"])));
+          latitude: d["positionInfo"]["latitude"],
+          longitude: d["positionInfo"]["longitude"]));
     }
 
     return distress_logs;
@@ -52,38 +53,57 @@ class DistressRepository {
     String token = await secureStorage.getSecureData("token");
     String id = await secureStorage.getSecureData("user_id");
 
-    Position currentLocation = await seaMapRepository.determinePosition();
+    PositionModel positionModel = await seaMapRepository.determinePosition();
+
+    // PositionModel positionModel = PositionModel(
+    //     user_id: id,
+    //     longitude: currentLocation.longitude,
+    //     latitude: currentLocation.latitude,
+    //     timestamp: currentLocation.timestamp,
+    //     accuracy: currentLocation.accuracy,
+    //     altitude: currentLocation.altitude,
+    //     heading: currentLocation.heading,
+    //     speed: currentLocation.speed,
+    //     speed_accuracy: currentLocation.speed_accuracy);
+
+    print("TIMESTAMP ====> " + positionModel.timestamp.toIso8601String());
+    print("TIMESTAMP Now ====> " + DateTime.now().toString());
+    print("TIMESTAMP Local ====> " + DateTime.now().toLocal().toString());
 
     try {
-      var locationResponse = await http
-          .post(Uri.http(credentials.API, credentials.LOCATION), headers: {
-        'Authorization': 'Bearer $token',
-      }, body: {
-        "user_id": id,
-        "longitude": currentLocation.longitude,
-        "latitude": currentLocation.latitude,
-        "timestamp": currentLocation.timestamp,
-        "accuracy": currentLocation.accuracy,
-        "altitude": currentLocation.altitude,
-        "heading": currentLocation.heading,
-        "speed": currentLocation.speed,
-        "speed_accuracy": currentLocation.speedAccuracy
-      });
+      var locationResponse = await http.post(
+          Uri.http(credentials.API, credentials.LOCATION),
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json'
+          },
+          body: jsonEncode({
+            "user_id": id,
+            "longitude": positionModel.longitude,
+            "latitude": positionModel.latitude,
+            "timestamp": positionModel.timestamp.toIso8601String(),
+            "accuracy": positionModel.accuracy,
+            "altitude": positionModel.altitude,
+            "heading": positionModel.heading,
+            "speed": positionModel.speed,
+            "speed_accuracy": positionModel.speed_accuracy
+          }));
 
       var locationData = jsonDecode(locationResponse.body);
 
       var reportResponse = await http.post(
-          Uri.http(credentials.API, credentials.DISTRESS_LOG + id),
+          Uri.http(credentials.API, credentials.DISTRESS),
           headers: {
             'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json'
           },
-          body: {
+          body: jsonEncode({
             "user_id": id,
             "position_id": locationData["_id"],
             "type": type,
             "content": content,
             "status": "no_response"
-          });
+          }));
 
       var reportData = jsonDecode(reportResponse.body);
 

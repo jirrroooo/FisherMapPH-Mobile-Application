@@ -12,6 +12,12 @@ class DistressBloc extends Bloc<DistressEvent, DistressState> {
   DistressBloc(this.distressRepository) : super(DistressInitial()) {
     on<SendDistressSignal>(_sendDistressSignal);
     on<DistressFetched>(_getDistressLogs);
+    on<SendDistressInitial>(_sendDistressInitial);
+  }
+
+  void _sendDistressInitial(SendDistressInitial event, Emitter emit) {
+    emit(DistressInitial());
+    return;
   }
 
   void _sendDistressSignal(SendDistressSignal event, Emitter emit) async {
