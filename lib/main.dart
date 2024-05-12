@@ -14,10 +14,13 @@ import 'package:fishermap_ph_mobileapp/features/settings/bloc/setting_bloc.dart'
 import 'package:fishermap_ph_mobileapp/features/settings/repository/setting_repository.dart';
 import 'package:fishermap_ph_mobileapp/home/bloc/home_bloc.dart';
 import 'package:fishermap_ph_mobileapp/home/repository/home_repository.dart';
+import 'package:fishermap_ph_mobileapp/services/notification/local_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await LocalNotification.init();
   runApp(const MyApp());
 }
 

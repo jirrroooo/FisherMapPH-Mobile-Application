@@ -1,17 +1,16 @@
-import 'package:fishermap_ph_mobileapp/data/credentials.dart';
-import 'package:fishermap_ph_mobileapp/data/secure_storage.dart';
+import 'dart:async';
+
 import 'package:fishermap_ph_mobileapp/features/sea_map/screens/sea_map_screen.dart';
 import 'package:fishermap_ph_mobileapp/home/bloc/home_bloc.dart';
-import 'package:fishermap_ph_mobileapp/home/repository/home_repository.dart';
 import 'package:fishermap_ph_mobileapp/features/alert_page/screens/alert_log_screen.dart';
 import 'package:fishermap_ph_mobileapp/features/distress_call_page/screens/distress_call_screen.dart';
 import 'package:fishermap_ph_mobileapp/features/homepage/screens/home_screen.dart';
 import 'package:fishermap_ph_mobileapp/features/location_page/screens/location_log_screen.dart';
 import 'package:fishermap_ph_mobileapp/home/widgets/drawer.dart';
+import 'package:fishermap_ph_mobileapp/services/monitoring/monitor_location.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:intl/intl.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -21,7 +20,9 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  MonitorLocation monitorLocation = MonitorLocation();
   int _selectedIndex = 2;
+  Timer? timer;
 
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -46,6 +47,9 @@ class _HomepageState extends State<Homepage> {
 
     _isVerified();
     context.read<HomeBloc>().add(InfoFetched());
+
+    timer = Timer.periodic(
+        Duration(minutes: 15), (Timer t) => monitorLocation.monitorLocation());
   }
 
   void _isVerified() async {

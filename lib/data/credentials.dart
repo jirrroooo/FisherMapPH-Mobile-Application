@@ -8,10 +8,12 @@ class Credentials {
   final String LOG = "/logs";
   final String LOCATION_LOG = "/logs/location/";
   final String ALERT_LOG = "/logs/alert/";
+  final String ADD_ALERT_LOG = "/logs/add-alert-log";
   final String USER = "/users";
   final String DISTRESS_LOG = "/reports/user/";
   final String CONTACT_FETCHED = "/contact/user/";
   final String CONTACT_CREATE = "/contact/new";
   final String LOCATION = "/positions";
   final String DISTRESS = "/reports";
+  final String ALERT_MAP = "/alerts/map";
 }

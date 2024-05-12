@@ -1,6 +1,10 @@
 import 'package:bloc/bloc.dart';
+import 'package:fishermap_ph_mobileapp/features/alert_page/model/alert_model.dart';
 import 'package:fishermap_ph_mobileapp/features/distress_call_page/model/position_model.dart';
 import 'package:fishermap_ph_mobileapp/features/sea_map/repository/sea_map_repository.dart';
+import 'package:fishermap_ph_mobileapp/functions/map_function.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:meta/meta.dart';
 
 part 'sea_map_event.dart';
@@ -11,6 +15,7 @@ class SeaMapBloc extends Bloc<SeaMapEvent, SeaMapState> {
 
   SeaMapBloc(this.seaMapRepository) : super(SeaMapInitial()) {
     on<LocationFetchedRequested>(_getCurrentLocation);
+    on<AlertMapFetchedRequested>(_getNearbyAlerts);
   }
 
   void _getCurrentLocation(
@@ -23,6 +28,20 @@ class SeaMapBloc extends Bloc<SeaMapEvent, SeaMapState> {
       emit(SeaMapLocationFetchedSuccess(currentLocation: currentLocation));
     } catch (e) {
       emit(SeaMapLocationFetchedFailed(e.toString()));
+    }
+  }
+
+  void _getNearbyAlerts(
+      AlertMapFetchedRequested event, Emitter<SeaMapState> emit) async {
+    MapFunction mapFunction = MapFunction();
+    try {
+      final currentLocation = await seaMapRepository.determinePosition();
+      final alerts = await seaMapRepository.getNearbyAlerts();
+
+      emit(AlertMapFetchedSuccess(
+          currentLocation: currentLocation, alerts: alerts));
+    } catch (e) {
+      emit(AlertMapFetchedFailed(e.toString()));
     }
   }
 }

@@ -4,3 +4,5 @@ part of 'sea_map_bloc.dart';
 sealed class SeaMapEvent {}
 
 final class LocationFetchedRequested extends SeaMapEvent {}
+
+final class AlertMapFetchedRequested extends SeaMapEvent {}

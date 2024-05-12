@@ -39,9 +39,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         if (state is InfoFailure) {
-          return Center(
-            child: Text(state.error),
-          );
+          secureStorage.deleteAllSecureData();
+          Navigator.popAndPushNamed(context, '/login');
         }
 
         if (state is! InfoSuccess) {

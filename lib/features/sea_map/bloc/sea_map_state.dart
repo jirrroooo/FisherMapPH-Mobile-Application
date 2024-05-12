@@ -18,3 +18,18 @@ final class SeaMapLocationFetchedFailed extends SeaMapState {
 
   SeaMapLocationFetchedFailed(this.error);
 }
+
+final class AlertMapFetchedLoading extends SeaMapState {}
+
+final class AlertMapFetchedSuccess extends SeaMapState {
+  final PositionModel currentLocation;
+  final List<AlertModel> alerts;
+
+  AlertMapFetchedSuccess({required this.currentLocation, required this.alerts});
+}
+
+final class AlertMapFetchedFailed extends SeaMapState {
+  final String error;
+
+  AlertMapFetchedFailed(this.error);
+}

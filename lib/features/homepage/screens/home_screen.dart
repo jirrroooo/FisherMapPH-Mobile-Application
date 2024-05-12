@@ -3,11 +3,11 @@ import 'package:fishermap_ph_mobileapp/features/location_page/bloc/location_bloc
 import 'package:fishermap_ph_mobileapp/features/sea_map/bloc/sea_map_bloc.dart';
 import 'package:fishermap_ph_mobileapp/functions/date_format.dart';
 import 'package:fishermap_ph_mobileapp/home/bloc/home_bloc.dart';
+import 'package:fishermap_ph_mobileapp/services/notification/local_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,7 +19,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   MapController _mapController = MapController();
-
   PSTDateFormat pstDateFormat = PSTDateFormat();
 
   bool alertBtn = true;
@@ -279,7 +278,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               height: 5,
                             ),
                             ElevatedButton(
-                                onPressed: () => {},
+                                onPressed: () {
+                                  // LocalNotification.showPeriodicNotification(
+                                  //     title: "Tiwi Municipal Water Boundary",
+                                  //     body:
+                                  //         "You are now entering the Pioduran Municipal Boundary",
+                                  //     payload: 'Test Payload');
+                                  LocalNotification.cancelAll();
+                                },
                                 child: Text(
                                   "View All Details",
                                   style: TextStyle(

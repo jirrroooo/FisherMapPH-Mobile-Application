@@ -19,11 +19,7 @@ class LocationRepository {
           'Authorization': 'Bearer $token',
         });
 
-    print("RES ===> " + response.body);
-
     var data = jsonDecode(response.body);
-
-    print("DATA ====>  " + data.toString());
 
     List<LocationModel> location_logs = [];
 

@@ -1,12 +1,8 @@
-import 'dart:ui';
-
 import 'package:fishermap_ph_mobileapp/features/alert_page/bloc/alert_bloc.dart';
 import 'package:fishermap_ph_mobileapp/functions/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:intl/intl.dart';
 
 class AlertLogPage extends StatefulWidget {
   const AlertLogPage({super.key});

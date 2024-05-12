@@ -5,7 +5,6 @@ import 'package:fishermap_ph_mobileapp/data/secure_storage.dart';
 import 'package:fishermap_ph_mobileapp/features/distress_call_page/model/distress_log_model.dart';
 import 'package:fishermap_ph_mobileapp/features/distress_call_page/model/position_model.dart';
 import 'package:fishermap_ph_mobileapp/features/sea_map/repository/sea_map_repository.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
@@ -65,10 +64,6 @@ class DistressRepository {
     //     heading: currentLocation.heading,
     //     speed: currentLocation.speed,
     //     speed_accuracy: currentLocation.speed_accuracy);
-
-    print("TIMESTAMP ====> " + positionModel.timestamp.toIso8601String());
-    print("TIMESTAMP Now ====> " + DateTime.now().toString());
-    print("TIMESTAMP Local ====> " + DateTime.now().toLocal().toString());
 
     try {
       var locationResponse = await http.post(

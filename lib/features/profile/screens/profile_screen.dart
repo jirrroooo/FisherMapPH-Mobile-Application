@@ -1,5 +1,4 @@
 import 'package:fishermap_ph_mobileapp/features/auth/models/enum.dart';
-import 'package:fishermap_ph_mobileapp/features/location_page/bloc/location_bloc.dart';
 import 'package:fishermap_ph_mobileapp/features/profile/bloc/profile_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

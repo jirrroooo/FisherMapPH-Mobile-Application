@@ -29,7 +29,11 @@ class SettingBloc extends Bloc<SettingEvent, SettingState> {
       final res =
           await settingRepository.updatePassword(passwordModel: passwordModel);
 
-      emit(PasswordUpdateSuccess());
+      if (res._id) {
+        emit(PasswordUpdateSuccess());
+      } else {
+        emit(PasswordUpdateFailure('Password Update Failed'));
+      }
     } catch (e) {
       emit(PasswordUpdateFailure(e.toString()));
     }

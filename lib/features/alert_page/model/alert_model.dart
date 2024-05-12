@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 class AlertModel {
+  final String? id;
   final String description;
   final String level;
   final DateTime effective;
@@ -13,6 +14,7 @@ class AlertModel {
   final int radius;
   final List location;
   AlertModel({
+    this.id,
     required this.description,
     required this.level,
     required this.effective,
@@ -24,6 +26,7 @@ class AlertModel {
   });
 
   AlertModel copyWith({
+    String? id,
     String? description,
     String? level,
     DateTime? effective,
@@ -34,6 +37,7 @@ class AlertModel {
     List? location,
   }) {
     return AlertModel(
+      id: id ?? this.id,
       description: description ?? this.description,
       level: level ?? this.level,
       effective: effective ?? this.effective,
@@ -47,6 +51,7 @@ class AlertModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'id': id,
       'description': description,
       'level': level,
       'effective': effective.millisecondsSinceEpoch,
@@ -60,16 +65,16 @@ class AlertModel {
 
   factory AlertModel.fromMap(Map<String, dynamic> map) {
     return AlertModel(
-        description: map['description'] as String,
-        level: map['level'] as String,
-        effective: DateTime.fromMillisecondsSinceEpoch(map['effective'] as int),
-        expires: DateTime.fromMillisecondsSinceEpoch(map['expires'] as int),
-        instruction: map['instruction'] as String,
-        title: map['title'] as String,
-        radius: map['radius'] as int,
-        location: List.from(
-          (map['location'] as List),
-        ));
+      id: map['id'] != null ? map['id'] as String : null,
+      description: map['description'] as String,
+      level: map['level'] as String,
+      effective: DateTime.fromMillisecondsSinceEpoch(map['effective'] as int),
+      expires: DateTime.fromMillisecondsSinceEpoch(map['expires'] as int),
+      instruction: map['instruction'] as String,
+      title: map['title'] as String,
+      radius: map['radius'] as int,
+      location: List.from((map['location'] as List)),
+    );
   }
 
   String toJson() => json.encode(toMap());
@@ -79,14 +84,15 @@ class AlertModel {
 
   @override
   String toString() {
-    return 'AlertModel(description: $description, level: $level, effective: $effective, expires: $expires, instruction: $instruction, title: $title, radius: $radius, location: $location)';
+    return 'AlertModel(id: $id, description: $description, level: $level, effective: $effective, expires: $expires, instruction: $instruction, title: $title, radius: $radius, location: $location)';
   }
 
   @override
   bool operator ==(covariant AlertModel other) {
     if (identical(this, other)) return true;
 
-    return other.description == description &&
+    return other.id == id &&
+        other.description == description &&
         other.level == level &&
         other.effective == effective &&
         other.expires == expires &&
@@ -98,7 +104,8 @@ class AlertModel {
 
   @override
   int get hashCode {
-    return description.hashCode ^
+    return id.hashCode ^
+        description.hashCode ^
         level.hashCode ^
         effective.hashCode ^
         expires.hashCode ^

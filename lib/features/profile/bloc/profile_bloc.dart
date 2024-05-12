@@ -45,7 +45,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     try {
       final res = await profileRepository.updateUser(profileModel);
 
-      emit(ProfileUpdateSuccess());
+      if (res._id) {
+        emit(ProfileUpdateSuccess());
+      } else {
+        throw Exception('Profile Update Unsuccessful');
+      }
     } catch (e) {
       emit(ProfileFetchedFailure(e.toString()));
     }
