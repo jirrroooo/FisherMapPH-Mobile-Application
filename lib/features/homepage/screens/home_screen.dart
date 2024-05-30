@@ -33,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
     context.read<SeaMapBloc>().add(LocationFetchedRequested());
     context.read<LocationBloc>().add(LocationFetched());
     context.read<AlertBloc>().add(AlertFetched());
+    context.read<SeaMapBloc>().add(BoundaryMapFetchedRequested());
   }
 
   void _isVerified() async {
@@ -55,10 +56,36 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(
             width: 10,
           ),
-          Text(
-            "Albay, Bicol",
-            style: TextStyle(fontFamily: "Readex Pro", fontSize: 15),
-          ),
+          BlocBuilder<SeaMapBloc, SeaMapState>(builder: (context, state) {
+            if (state is BoundaryMapFetchedFailed) {
+              return Center(
+                child: Text(state.error),
+              );
+            }
+
+            if (state is! BoundaryMapFetchedSuccess) {
+              return const Center(
+                child: CircularProgressIndicator.adaptive(),
+              );
+            }
+
+            var data = state.boundaryModel;
+            var currentLocation = state.currentLocation;
+
+            if (data == null) {
+              return Text(
+                currentLocation.longitude.toStringAsFixed(4) +
+                    ", " +
+                    currentLocation.latitude.toStringAsFixed(4),
+                style: TextStyle(fontFamily: "Readex Pro", fontSize: 15),
+              );
+            }
+
+            return Text(
+              data.title,
+              style: TextStyle(fontFamily: "Readex Pro", fontSize: 10),
+            );
+          }),
         ]),
         leadingWidth: double.infinity,
         actions: [
@@ -66,11 +93,6 @@ class _HomeScreenState extends State<HomeScreen> {
             onPressed: () => {Navigator.pushNamed(context, "/notification")},
             icon: Icon(Icons.notifications_rounded),
           ),
-          IconButton(
-            onPressed: () => {Navigator.pushNamed(context, "/weather")},
-            icon: Icon(Icons.cloud_rounded),
-          ),
-          Text("36°", style: TextStyle(fontFamily: "Readex Pro", fontSize: 15)),
           SizedBox(
             width: 10,
           ),

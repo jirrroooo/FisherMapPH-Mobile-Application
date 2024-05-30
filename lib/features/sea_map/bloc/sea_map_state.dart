@@ -33,3 +33,19 @@ final class AlertMapFetchedFailed extends SeaMapState {
 
   AlertMapFetchedFailed(this.error);
 }
+
+final class BoundaryMapFetchedLoading extends SeaMapState {}
+
+final class BoundaryMapFetchedSuccess extends SeaMapState {
+  final BoundaryModel? boundaryModel;
+  final PositionModel currentLocation;
+
+  BoundaryMapFetchedSuccess(
+      {required this.boundaryModel, required this.currentLocation});
+}
+
+final class BoundaryMapFetchedFailed extends SeaMapState {
+  final String error;
+
+  BoundaryMapFetchedFailed(this.error);
+}

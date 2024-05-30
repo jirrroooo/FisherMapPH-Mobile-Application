@@ -135,13 +135,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   ),
                   ListTile(
                     contentPadding: EdgeInsets.zero,
-                    leading: Icon(Icons.cloud),
-                    title: Text('Weather'),
-                    onTap: () =>
-                        {Navigator.popAndPushNamed(context, "/weather")},
-                  ),
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
                     leading: Icon(Icons.settings),
                     title: Text('Settings'),
                     onTap: () =>

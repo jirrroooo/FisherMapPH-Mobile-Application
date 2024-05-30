@@ -4,8 +4,10 @@ import 'package:fishermap_ph_mobileapp/data/credentials.dart';
 import 'package:fishermap_ph_mobileapp/data/secure_storage.dart';
 import 'package:fishermap_ph_mobileapp/features/alert_page/model/alert_model.dart';
 import 'package:fishermap_ph_mobileapp/features/distress_call_page/model/position_model.dart';
+import 'package:fishermap_ph_mobileapp/features/sea_map/model/boundary_model.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
+import 'package:latlong2/latlong.dart';
 
 class SeaMapRepository {
   Credentials credentials = Credentials();
@@ -102,5 +104,51 @@ class SeaMapRepository {
     }
 
     return alert_logs;
+  }
+
+  Future<BoundaryModel?> getBoundary() async {
+    String token = await secureStorage.getSecureData("token");
+    String id = await secureStorage.getSecureData("user_id");
+
+    var currentPosition = await determinePosition();
+
+    Map<String, dynamic> query = {
+      'latitude': currentPosition.latitude.toString(),
+      'longitude': currentPosition.longitude.toString(),
+    };
+
+    print(query);
+
+    var response = await http.get(
+        Uri.http(credentials.API, credentials.BOUNDARY_CURRENT, query),
+        headers: {
+          'Authorization': 'Bearer $token',
+        });
+
+    print("req ======> " + response.request.toString());
+    print("body ======> " + response.body.toString());
+
+    var data;
+
+    try {
+      data = jsonDecode(response.body);
+    } catch (e) {
+      return null;
+    }
+
+    List<LatLng> points = [];
+
+    data["location"].forEach(
+        (point) => {points.add(LatLng(point["latitude"], point["longitude"]))});
+
+    BoundaryModel boundaryModel = BoundaryModel(
+        title: data["title"],
+        region: data["region"],
+        province: data["province"],
+        municipality: data["municipality"],
+        postal_code: data["postal_code"],
+        location: points);
+
+    return boundaryModel;
   }
 }

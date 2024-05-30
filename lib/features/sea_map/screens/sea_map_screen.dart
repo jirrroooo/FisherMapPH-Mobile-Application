@@ -1,5 +1,7 @@
 import 'package:fishermap_ph_mobileapp/features/alert_page/model/alert_model.dart';
 import 'package:fishermap_ph_mobileapp/features/sea_map/bloc/sea_map_bloc.dart';
+import 'package:fishermap_ph_mobileapp/features/sea_map/model/boundary_model.dart';
+import 'package:fishermap_ph_mobileapp/features/sea_map/repository/sea_map_repository.dart';
 import 'package:fishermap_ph_mobileapp/functions/date_format.dart';
 import 'package:fishermap_ph_mobileapp/functions/map_function.dart';
 import 'package:flutter/cupertino.dart';
@@ -59,6 +61,12 @@ class _SeaMapScreenState extends State<SeaMapScreen> {
                   );
                 }
 
+                if (state is BoundaryMapFetchedFailed) {
+                  return Center(
+                    child: Text(state.error),
+                  );
+                }
+
                 if (state is SeaMapLocationFetchedLoading) {
                   return const Center(
                     child: CircularProgressIndicator.adaptive(),
@@ -66,6 +74,12 @@ class _SeaMapScreenState extends State<SeaMapScreen> {
                 }
 
                 if (state is AlertMapFetchedLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  );
+                }
+
+                if (state is BoundaryMapFetchedLoading) {
                   return const Center(
                     child: CircularProgressIndicator.adaptive(),
                   );
@@ -80,8 +94,8 @@ class _SeaMapScreenState extends State<SeaMapScreen> {
                   alerts.forEach((alert) {
                     polygonList.add(Polygon(
                         points: mapFunction.computeCircleAlertBounds(
-                            alert.location[0][0],
-                            alert.location[0][1],
+                            double.parse(alert.location[0][0]),
+                            double.parse(alert.location[0][1]),
                             double.parse(alert.radius.toString())),
                         isFilled: true,
                         color: Color.fromRGBO(0, 0, 0, 0.3),
@@ -89,17 +103,12 @@ class _SeaMapScreenState extends State<SeaMapScreen> {
                         borderStrokeWidth: 3));
 
                     markerList.add(Marker(
-                      point: LatLng(alert.location[0][1], alert.location[0][0]),
+                      point: LatLng(double.parse(alert.location[0][1]),
+                          double.parse(alert.location[0][0])),
                       width: 45,
                       height: 45,
                       child: GestureDetector(
                           onTap: () => {_showAlertLocationBottomSheet(alert)},
-                          // child: Icon(
-                          //   Icons.warning_rounded,
-                          //   color: Colors.yellow.shade500,
-                          //   size: 40,
-                          //   semanticLabel: alert.title,
-                          // )
                           child: Image.asset(
                             'assets/images/alert.png',
                           )),
@@ -142,6 +151,95 @@ class _SeaMapScreenState extends State<SeaMapScreen> {
                         options: PopupMarkerLayerOptions(
                           popupController: _popupController,
                           markers: markerList,
+                        ),
+                      ),
+                    ],
+                  );
+                }
+
+                if (state is BoundaryMapFetchedSuccess) {
+                  var data = state.boundaryModel;
+                  var position = state.currentLocation;
+
+                  if (data != null) {
+                    return FlutterMap(
+                      mapController: _mapController,
+                      options: MapOptions(
+                          initialCenter:
+                              LatLng(position.latitude, position.longitude),
+                          initialZoom: 8),
+                      children: [
+                        TileLayer(
+                          urlTemplate:
+                              'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                          userAgentPackageName: 'com.example.app',
+                        ),
+                        PolygonLayer(
+                          polygons: [
+                            Polygon(
+                                points: data.location,
+                                isFilled: true,
+                                color: Color.fromRGBO(0, 0, 0, 0.3),
+                                borderColor: Colors.black45,
+                                borderStrokeWidth: 3)
+                          ],
+                          polygonCulling: true,
+                        ),
+                        PopupMarkerLayer(
+                          options: PopupMarkerLayerOptions(
+                            popupController: _popupController,
+                            markers: [
+                              Marker(
+                                point: LatLng(
+                                    position.latitude, position.longitude),
+                                width: 50,
+                                height: 50,
+                                child: GestureDetector(
+                                  onTap: () =>
+                                      {_showBoundaryLocationBottomSheet(data)},
+                                  child: Image.asset(
+                                    'assets/images/fishing.png',
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+
+                  return FlutterMap(
+                    mapController: _mapController,
+                    options: MapOptions(
+                        initialCenter:
+                            LatLng(position.latitude, position.longitude),
+                        initialZoom: 8),
+                    children: [
+                      TileLayer(
+                        urlTemplate:
+                            'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        userAgentPackageName: 'com.example.app',
+                      ),
+                      PopupMarkerLayer(
+                        options: PopupMarkerLayerOptions(
+                          popupController: _popupController,
+                          markers: [
+                            Marker(
+                              point:
+                                  LatLng(position.latitude, position.longitude),
+                              width: 50,
+                              height: 50,
+                              child: GestureDetector(
+                                onTap: () => {
+                                  // _showUserLocationBottomSheet(currentlocation)
+                                },
+                                child: Image.asset(
+                                  'assets/images/fishing.png',
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     ],
@@ -219,7 +317,11 @@ class _SeaMapScreenState extends State<SeaMapScreen> {
                                   eccentricity: 0,
                                 ),
                               )),
-                          onPressed: () => {},
+                          onPressed: () => {
+                            context
+                                .read<SeaMapBloc>()
+                                .add(BoundaryMapFetchedRequested())
+                          },
                           child: Icon(
                             Icons.fence_outlined,
                             color: Colors.black,
@@ -366,7 +468,7 @@ class _SeaMapScreenState extends State<SeaMapScreen> {
             scrollDirection: Axis.vertical,
             physics: ClampingScrollPhysics(),
             child: Container(
-              height: 250,
+              height: 270,
               child: Padding(
                 padding: const EdgeInsets.all(15),
                 child: Column(
@@ -458,6 +560,173 @@ class _SeaMapScreenState extends State<SeaMapScreen> {
                     currentPos("Longitude", alert.location[0][0].toString()),
                     currentPos(
                         "Radius", alert.radius.toString() + ' kilometers'),
+                    SizedBox(
+                      height: 10,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
+  void _showBoundaryLocationBottomSheet(BoundaryModel boundary) {
+    showModalBottomSheet<void>(
+        context: context,
+        isScrollControlled: true,
+        builder: (BuildContext context) {
+          return SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            physics: ClampingScrollPhysics(),
+            child: Container(
+              height: 270,
+              child: Padding(
+                padding: const EdgeInsets.all(15),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      height: 50,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Color.fromRGBO(240, 205, 146, 1),
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(13),
+                            topRight: Radius.circular(13)),
+                      ),
+                      child: Center(
+                        child: Text(
+                          boundary.title,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: "Readex Pro",
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Region: ",
+                            style: TextStyle(
+                                fontFamily: "Readex Pro",
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.start,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Flexible(
+                            child: Text(
+                              boundary.region,
+                              style: TextStyle(
+                                  fontFamily: "Readex Pro", fontSize: 13),
+                              textAlign: TextAlign.start,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Province: ",
+                            style: TextStyle(
+                                fontFamily: "Readex Pro",
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.start,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Flexible(
+                            child: Text(
+                              boundary.province[0].toUpperCase() +
+                                  boundary.province.substring(1).toLowerCase(),
+                              style: TextStyle(
+                                  fontFamily: "Readex Pro", fontSize: 13),
+                              textAlign: TextAlign.start,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Municipality: ",
+                            style: TextStyle(
+                                fontFamily: "Readex Pro",
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.start,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Flexible(
+                            child: Text(
+                              boundary.municipality[0].toUpperCase() +
+                                  boundary.municipality
+                                      .substring(1)
+                                      .toLowerCase(),
+                              style: TextStyle(
+                                  fontFamily: "Readex Pro", fontSize: 13),
+                              textAlign: TextAlign.start,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Postal Code: ",
+                            style: TextStyle(
+                                fontFamily: "Readex Pro",
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.start,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Flexible(
+                            child: Text(
+                              boundary.postal_code.toString(),
+                              style: TextStyle(
+                                  fontFamily: "Readex Pro", fontSize: 13),
+                              textAlign: TextAlign.start,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     SizedBox(
                       height: 10,
                     ),

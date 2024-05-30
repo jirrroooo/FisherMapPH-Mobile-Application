@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:fishermap_ph_mobileapp/features/alert_page/model/alert_model.dart';
 import 'package:fishermap_ph_mobileapp/features/distress_call_page/model/position_model.dart';
+import 'package:fishermap_ph_mobileapp/features/sea_map/model/boundary_model.dart';
 import 'package:fishermap_ph_mobileapp/features/sea_map/repository/sea_map_repository.dart';
 import 'package:fishermap_ph_mobileapp/functions/map_function.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class SeaMapBloc extends Bloc<SeaMapEvent, SeaMapState> {
   SeaMapBloc(this.seaMapRepository) : super(SeaMapInitial()) {
     on<LocationFetchedRequested>(_getCurrentLocation);
     on<AlertMapFetchedRequested>(_getNearbyAlerts);
+    on<BoundaryMapFetchedRequested>(_getBoundary);
   }
 
   void _getCurrentLocation(
@@ -42,6 +44,19 @@ class SeaMapBloc extends Bloc<SeaMapEvent, SeaMapState> {
           currentLocation: currentLocation, alerts: alerts));
     } catch (e) {
       emit(AlertMapFetchedFailed(e.toString()));
+    }
+  }
+
+  void _getBoundary(
+      BoundaryMapFetchedRequested event, Emitter<SeaMapState> emit) async {
+    try {
+      BoundaryModel? boundaryModel = await seaMapRepository.getBoundary();
+      final currentLocation = await seaMapRepository.determinePosition();
+
+      emit(BoundaryMapFetchedSuccess(
+          boundaryModel: boundaryModel, currentLocation: currentLocation));
+    } catch (e) {
+      emit(BoundaryMapFetchedFailed(e.toString()));
     }
   }
 }

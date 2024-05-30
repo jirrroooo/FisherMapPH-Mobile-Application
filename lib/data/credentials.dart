@@ -1,7 +1,6 @@
 class Credentials {
-  final String API = "10.0.2.2:3001";
-  // final String API = "localhost:3001";
-  // final String API = "172.22.87.94:3001";
+  // final String API = "10.0.2.2:3001";
+  final String API = "localhost:3001";
   final String LOGIN = "auth/login";
   final String REGISTER = "/auth/signup";
   final String USER_ID = "/auth/profile";
@@ -16,4 +15,5 @@ class Credentials {
   final String LOCATION = "/positions";
   final String DISTRESS = "/reports";
   final String ALERT_MAP = "/alerts/map";
+  final String BOUNDARY_CURRENT = "/boundaries/current-location";
 }

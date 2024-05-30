@@ -6,3 +6,5 @@ sealed class SeaMapEvent {}
 final class LocationFetchedRequested extends SeaMapEvent {}
 
 final class AlertMapFetchedRequested extends SeaMapEvent {}
+
+final class BoundaryMapFetchedRequested extends SeaMapEvent {}

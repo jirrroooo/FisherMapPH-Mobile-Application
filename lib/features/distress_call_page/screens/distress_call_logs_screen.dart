@@ -110,7 +110,7 @@ class _DistressCallLogsScreenState extends State<DistressCallLogsScreen> {
                   subtitle: Row(
                     children: [
                       SizedBox(
-                        width: 10,
+                        width: 5,
                       ),
                       Icon(
                         Icons.fiber_manual_record,
@@ -118,12 +118,12 @@ class _DistressCallLogsScreenState extends State<DistressCallLogsScreen> {
                         color: Colors.grey,
                       ),
                       SizedBox(
-                        width: 10,
+                        width: 5,
                       ),
                       Text(
                         'Latitude: ${data[i].latitude.toStringAsFixed(4)}, Longitude: ${data[i].longitude.toStringAsFixed(4)}',
                         style:
-                            TextStyle(fontFamily: "Readex Pro", fontSize: 12),
+                            TextStyle(fontFamily: "Readex Pro", fontSize: 10),
                       ),
                     ],
                   ),
