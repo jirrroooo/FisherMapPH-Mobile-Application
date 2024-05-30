@@ -11,6 +11,7 @@ class RegisterModel {
   final String contact_number;
   final String address;
   final DateTime birthday;
+  final String region;
   final String civil_status;
   final String user_type;
   final String fishing_vessel_type;
@@ -24,6 +25,7 @@ class RegisterModel {
     required this.contact_number,
     required this.address,
     required this.birthday,
+    required this.region,
     required this.civil_status,
     required this.user_type,
     required this.fishing_vessel_type,
@@ -39,6 +41,7 @@ class RegisterModel {
     String? contact_number,
     String? address,
     DateTime? birthday,
+    String? region,
     String? civil_status,
     String? user_type,
     String? fishing_vessel_type,
@@ -53,6 +56,7 @@ class RegisterModel {
       contact_number: contact_number ?? this.contact_number,
       address: address ?? this.address,
       birthday: birthday ?? this.birthday,
+      region: region ?? this.region,
       civil_status: civil_status ?? this.civil_status,
       user_type: user_type ?? this.user_type,
       fishing_vessel_type: fishing_vessel_type ?? this.fishing_vessel_type,
@@ -70,6 +74,7 @@ class RegisterModel {
       'contact_number': contact_number,
       'address': address,
       'birthday': birthday.millisecondsSinceEpoch,
+      'region': region,
       'civil_status': civil_status,
       'user_type': user_type,
       'fishing_vessel_type': fishing_vessel_type,
@@ -87,6 +92,7 @@ class RegisterModel {
       contact_number: map['contact_number'] as String,
       address: map['address'] as String,
       birthday: DateTime.fromMillisecondsSinceEpoch(map['birthday'] as int),
+      region: map['region'] as String,
       civil_status: map['civil_status'] as String,
       user_type: map['user_type'] as String,
       fishing_vessel_type: map['fishing_vessel_type'] as String,
@@ -100,7 +106,7 @@ class RegisterModel {
 
   @override
   String toString() {
-    return 'RegisterModel(first_name: $first_name, last_name: $last_name, sex: $sex, email_address: $email_address, password: $password, confirm_password: $confirm_password, contact_number: $contact_number, address: $address, birthday: $birthday, civil_status: $civil_status, user_type: $user_type, fishing_vessel_type: $fishing_vessel_type)';
+    return 'RegisterModel(first_name: $first_name, last_name: $last_name, sex: $sex, email_address: $email_address, password: $password, confirm_password: $confirm_password, contact_number: $contact_number, address: $address, birthday: $birthday, region: $region, civil_status: $civil_status, user_type: $user_type, fishing_vessel_type: $fishing_vessel_type)';
   }
 
   @override
@@ -116,6 +122,7 @@ class RegisterModel {
         other.contact_number == contact_number &&
         other.address == address &&
         other.birthday == birthday &&
+        other.region == region &&
         other.civil_status == civil_status &&
         other.user_type == user_type &&
         other.fishing_vessel_type == fishing_vessel_type;
@@ -132,6 +139,7 @@ class RegisterModel {
         contact_number.hashCode ^
         address.hashCode ^
         birthday.hashCode ^
+        region.hashCode ^
         civil_status.hashCode ^
         user_type.hashCode ^
         fishing_vessel_type.hashCode;

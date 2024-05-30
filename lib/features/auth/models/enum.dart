@@ -49,3 +49,26 @@ enum EmergencyType {
   const EmergencyType(this.label);
   final String label;
 }
+
+enum Region {
+  ilocos("Ilocos Region"),
+  cagayanValley("Cagayan Valley"),
+  centralLuzon("Central Luzon"),
+  calabarzon("CALABARZON"),
+  mimaropa("MIMAROPA"),
+  bicol("Bicol Region"),
+  westernVisayas("Western Visayas"),
+  centralVisayas("Central Visayas"),
+  easternVisayas("Eastern Visayas"),
+  zamboangaPeninsula("Zamboanga Peninsula"),
+  northernMindanao("Northern Mindanao"),
+  davao("Davao Region"),
+  soccsksargen("SOCCSKSARGEN"),
+  caraga("Caraga"),
+  bangsamoro("BARMM"),
+  ncr("National Capital Region"),
+  car("Cordillera Administrative Region");
+
+  const Region(this.label);
+  final String label;
+}

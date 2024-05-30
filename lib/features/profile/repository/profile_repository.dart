@@ -28,6 +28,7 @@ class ProfileRepository {
         email_address: data["email_address"],
         contact_number: data["contact_number"],
         address: data["address"],
+        region: data["region"],
         birthday: DateTime.parse(data["birthday"]),
         civil_status: data["civil_status"],
         isAuthenticated: data["isAuthenticated"],
@@ -54,6 +55,7 @@ class ProfileRepository {
           "birthday": data.birthday.toIso8601String(),
           "civil_status": data.civil_status,
           "fishing_vessel_type": data.fishing_vessel_type,
+          "region": data.region
         });
 
     var res = jsonDecode(response.body);

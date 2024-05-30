@@ -12,6 +12,7 @@ final class ProfileUpdateRequested extends ProfileEvent {
   final String email_address;
   final String contact_number;
   final String address;
+  final String region;
   final DateTime birthday;
   final bool isAuthenticated;
   final String civil_status;
@@ -27,6 +28,7 @@ final class ProfileUpdateRequested extends ProfileEvent {
       required this.createdAt,
       required this.contact_number,
       required this.address,
+      required this.region,
       required this.birthday,
       required this.civil_status,
       required this.fishing_vessel_type});

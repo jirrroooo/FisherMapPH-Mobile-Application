@@ -16,6 +16,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   DateTime? pickedDate;
   var _selectedCivilStatus;
   var _selectedVesselType;
+  var _selectedRegion;
 
   TextEditingController emailController = TextEditingController();
   TextEditingController contactController = TextEditingController();
@@ -23,6 +24,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController birthdayController = TextEditingController();
   TextEditingController civilStatusController = TextEditingController();
   TextEditingController fishingVesselTypeController = TextEditingController();
+  TextEditingController regionController = TextEditingController();
 
   bool isEdit = false;
 
@@ -100,6 +102,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           contactController.text = data.contact_number;
           addressController.text = data.address;
           birthdayController.text = formatter2.format(data.birthday);
+          regionController.text = data.region;
           civilStatusController.text =
               toBeginningOfSentenceCase(data.civil_status)!;
           fishingVesselTypeController.text =
@@ -308,6 +311,55 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     height: 15,
                   ),
                   Center(
+                    child: DropdownMenu<Region>(
+                      enabled: isEdit,
+                      width: 300,
+                      leadingIcon: Icon(Icons.map),
+                      enableSearch: true,
+                      controller: regionController,
+                      enableFilter: false,
+                      requestFocusOnTap: true,
+                      hintText: "Enter Civil Status",
+                      onSelected: (Region? region) {
+                        setState(() {
+                          _selectedRegion = region;
+                          regionController.text = _selectedRegion;
+                        });
+                      },
+                      inputDecorationTheme: InputDecorationTheme(
+                        fillColor: Colors.white,
+                        filled: true,
+                        contentPadding: const EdgeInsets.all(27),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: Color.fromRGBO(59, 58, 69, 1),
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            color: Color.fromRGBO(0, 0, 0, 0.498),
+                            width: 3,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      dropdownMenuEntries:
+                          Region.values.map<DropdownMenuEntry<Region>>(
+                        (Region region) {
+                          return DropdownMenuEntry<Region>(
+                              value: region,
+                              label: region.label,
+                              enabled: true);
+                        },
+                      ).toList(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Center(
                     child: DropdownMenu<CivilStatus>(
                       enabled: isEdit,
                       width: 300,
@@ -442,6 +494,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         contact_number:
                                             contactController.text.trim(),
                                         address: addressController.text.trim(),
+                                        region: regionController.text.trim(),
                                         birthday: DateTime.parse(
                                             birthdayController.text),
                                         civil_status:

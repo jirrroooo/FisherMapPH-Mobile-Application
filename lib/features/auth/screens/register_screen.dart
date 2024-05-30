@@ -23,6 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final addressController = TextEditingController();
   final birthdayController = TextEditingController();
   final civilStatusController = TextEditingController();
+  final regionController = TextEditingController();
   final fishingVesselTypeController = TextEditingController();
   final sexController = TextEditingController();
   final passwordController1 = TextEditingController();
@@ -53,6 +54,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     var _selectedVesselType;
     var _selectedCivilStatus;
     var _selectedSex;
+    var _selectedRegion;
 
     const fieldGap = 15.0;
 
@@ -201,6 +203,47 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   hintText: "Enter your Birthday",
                 ),
+              ),
+              SizedBox(height: fieldGap),
+              DropdownMenu<Region>(
+                width: 380,
+                leadingIcon: Icon(Icons.assignment),
+                enableSearch: true,
+                controller: regionController,
+                enableFilter: false,
+                requestFocusOnTap: true,
+                hintText: "Enter Region",
+                onSelected: (Region? region) {
+                  setState(() {
+                    _selectedRegion = region;
+                  });
+                },
+                inputDecorationTheme: InputDecorationTheme(
+                  fillColor: Colors.white,
+                  filled: true,
+                  contentPadding: const EdgeInsets.all(27),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Color.fromRGBO(59, 58, 69, 1),
+                      width: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(
+                      color: Color.fromRGBO(0, 0, 0, 0.498),
+                      width: 3,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                dropdownMenuEntries:
+                    Region.values.map<DropdownMenuEntry<Region>>(
+                  (Region region) {
+                    return DropdownMenuEntry<Region>(
+                        value: region, label: region.label, enabled: true);
+                  },
+                ).toList(),
               ),
               SizedBox(height: fieldGap),
               DropdownMenu<CivilStatus>(
@@ -382,6 +425,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             address: addressController.text.trim(),
                             birthday: serializeBirthday(
                                 birthdayController.text.trim()),
+                            region: regionController.text.trim(),
                             civil_status:
                                 civilStatusController.text.trim().toLowerCase(),
                             fishing_vessel_type: fishingVesselTypeController

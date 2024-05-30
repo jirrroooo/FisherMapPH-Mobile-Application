@@ -36,6 +36,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         email_address: event.email_address,
         contact_number: event.contact_number,
         address: event.address,
+        region: event.region,
         birthday: event.birthday,
         civil_status: event.civil_status,
         isAuthenticated: event.isAuthenticated,

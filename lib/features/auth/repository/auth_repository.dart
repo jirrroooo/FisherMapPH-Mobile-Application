@@ -28,6 +28,7 @@ class AuthRepository {
       'password': register.password,
       'contact_number': register.contact_number,
       'address': register.address,
+      'region': register.region,
       'birthday': register.birthday.toString(),
       'civil_status': register.civil_status,
       'user_type': register.user_type,

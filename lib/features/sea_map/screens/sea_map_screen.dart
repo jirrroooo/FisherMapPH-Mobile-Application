@@ -94,8 +94,8 @@ class _SeaMapScreenState extends State<SeaMapScreen> {
                   alerts.forEach((alert) {
                     polygonList.add(Polygon(
                         points: mapFunction.computeCircleAlertBounds(
-                            double.parse(alert.location[0][0]),
-                            double.parse(alert.location[0][1]),
+                            double.parse(alert.location[0][0].toString()),
+                            double.parse(alert.location[0][1].toString()),
                             double.parse(alert.radius.toString())),
                         isFilled: true,
                         color: Color.fromRGBO(0, 0, 0, 0.3),
@@ -103,8 +103,9 @@ class _SeaMapScreenState extends State<SeaMapScreen> {
                         borderStrokeWidth: 3));
 
                     markerList.add(Marker(
-                      point: LatLng(double.parse(alert.location[0][1]),
-                          double.parse(alert.location[0][0])),
+                      point: LatLng(
+                          double.parse(alert.location[0][1].toString()),
+                          double.parse(alert.location[0][0].toString())),
                       width: 45,
                       height: 45,
                       child: GestureDetector(

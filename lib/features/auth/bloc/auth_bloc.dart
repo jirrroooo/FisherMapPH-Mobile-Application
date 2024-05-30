@@ -89,6 +89,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         contact_number: event.contact_number,
         address: event.address,
         birthday: event.birthday,
+        region: event.region,
         civil_status: event.civil_status,
         user_type: event.user_type,
         fishing_vessel_type: event.fishing_vessel_type);

@@ -24,6 +24,7 @@ final class AuthRegisterRequested extends AuthEvent {
   final String contact_number;
   final String address;
   final DateTime birthday;
+  final String region;
   final String civil_status;
   final String user_type;
   final String fishing_vessel_type;
@@ -38,6 +39,7 @@ final class AuthRegisterRequested extends AuthEvent {
       required this.contact_number,
       required this.address,
       required this.birthday,
+      required this.region,
       required this.civil_status,
       required this.user_type,
       required this.fishing_vessel_type});

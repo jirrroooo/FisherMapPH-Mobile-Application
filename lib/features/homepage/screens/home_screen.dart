@@ -347,7 +347,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   if (data.length == 0) {
                     return Column(
                       children: [
-                        Text("test"),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

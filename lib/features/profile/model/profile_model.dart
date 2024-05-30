@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 class ProfileModel {
@@ -12,6 +13,7 @@ class ProfileModel {
   final bool isAuthenticated;
   final String fishing_vessel_type;
   final DateTime createdAt;
+  final String region;
   ProfileModel({
     required this.first_name,
     required this.last_name,
@@ -24,6 +26,7 @@ class ProfileModel {
     required this.isAuthenticated,
     required this.fishing_vessel_type,
     required this.createdAt,
+    required this.region,
   });
 
   ProfileModel copyWith({
@@ -38,6 +41,7 @@ class ProfileModel {
     bool? isAuthenticated,
     String? fishing_vessel_type,
     DateTime? createdAt,
+    String? region,
   }) {
     return ProfileModel(
       first_name: first_name ?? this.first_name,
@@ -51,6 +55,7 @@ class ProfileModel {
       isAuthenticated: isAuthenticated ?? this.isAuthenticated,
       fishing_vessel_type: fishing_vessel_type ?? this.fishing_vessel_type,
       createdAt: createdAt ?? this.createdAt,
+      region: region ?? this.region,
     );
   }
 
@@ -67,6 +72,7 @@ class ProfileModel {
       'isAuthenticated': isAuthenticated,
       'fishing_vessel_type': fishing_vessel_type,
       'createdAt': createdAt.millisecondsSinceEpoch,
+      'region': region,
     };
   }
 
@@ -83,6 +89,7 @@ class ProfileModel {
       isAuthenticated: map['isAuthenticated'] as bool,
       fishing_vessel_type: map['fishing_vessel_type'] as String,
       createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
+      region: map['region'] as String,
     );
   }
 
@@ -93,7 +100,7 @@ class ProfileModel {
 
   @override
   String toString() {
-    return 'ProfileModel(first_name: $first_name, last_name: $last_name, sex: $sex, email_address: $email_address, contact_number: $contact_number, address: $address, birthday: $birthday, civil_status: $civil_status, isAuthenticated: $isAuthenticated, fishing_vessel_type: $fishing_vessel_type, createdAt: $createdAt)';
+    return 'ProfileModel(first_name: $first_name, last_name: $last_name, sex: $sex, email_address: $email_address, contact_number: $contact_number, address: $address, birthday: $birthday, civil_status: $civil_status, isAuthenticated: $isAuthenticated, fishing_vessel_type: $fishing_vessel_type, createdAt: $createdAt, region: $region)';
   }
 
   @override
@@ -110,7 +117,8 @@ class ProfileModel {
         other.civil_status == civil_status &&
         other.isAuthenticated == isAuthenticated &&
         other.fishing_vessel_type == fishing_vessel_type &&
-        other.createdAt == createdAt;
+        other.createdAt == createdAt &&
+        other.region == region;
   }
 
   @override
@@ -125,6 +133,7 @@ class ProfileModel {
         civil_status.hashCode ^
         isAuthenticated.hashCode ^
         fishing_vessel_type.hashCode ^
-        createdAt.hashCode;
+        createdAt.hashCode ^
+        region.hashCode;
   }
 }
