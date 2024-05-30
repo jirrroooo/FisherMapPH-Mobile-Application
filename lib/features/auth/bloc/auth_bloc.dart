@@ -50,8 +50,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         secureStorage.writeSecureData("token", data["token"].toString());
         id = await authRepository.getUserId(data["token"]);
 
-        print("ID => " + id["id"]);
-
         secureStorage.writeSecureData("user_id", id["id"]);
       } else if (data["token"] != null && data["userType"] != "user") {
         return emit(

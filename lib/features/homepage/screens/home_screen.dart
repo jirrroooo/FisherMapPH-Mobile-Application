@@ -30,7 +30,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     _isVerified();
     context.read<HomeBloc>().add(InfoFetched());
-    context.read<SeaMapBloc>().add(LocationFetchedRequested());
     context.read<LocationBloc>().add(LocationFetched());
     context.read<AlertBloc>().add(AlertFetched());
     context.read<SeaMapBloc>().add(BoundaryMapFetchedRequested());
@@ -83,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
             return Text(
               data.title,
-              style: TextStyle(fontFamily: "Readex Pro", fontSize: 10),
+              style: TextStyle(fontFamily: "Readex Pro", fontSize: 14),
             );
           }),
         ]),
@@ -105,55 +104,94 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               BlocBuilder<SeaMapBloc, SeaMapState>(builder: (context, state) {
-                if (state is SeaMapLocationFetchedFailed) {
+                if (state is BoundaryMapFetchedFailed) {
                   return Center(
                     child: Text(state.error),
                   );
                 }
 
-                if (state is! SeaMapLocationFetchedSuccess) {
+                if (state is! BoundaryMapFetchedSuccess) {
                   return const Center(
                     child: CircularProgressIndicator.adaptive(),
                   );
                 }
 
-                var data = state.currentLocation;
+                var data = state.boundaryModel;
+                var currentLocation = state.currentLocation;
 
                 return Column(
                   children: [
                     Container(
-                      height: 200,
-                      decoration: BoxDecoration(
-                        color: Colors.teal,
-                        border: Border.all(
-                          width: 3,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          color: Colors.teal,
+                          border: Border.all(
+                            width: 3,
+                          ),
+                          // borderRadius: BorderRadius.only(
+                          //     topLeft: Radius.circular(16),
+                          //     topRight: Radius.circular(16)),
                         ),
-                        // borderRadius: BorderRadius.only(
-                        //     topLeft: Radius.circular(16),
-                        //     topRight: Radius.circular(16)),
-                      ),
-                      child: FlutterMap(
-                          mapController: _mapController,
-                          options: MapOptions(
-                              initialCenter:
-                                  LatLng(data.latitude, data.longitude),
-                              initialZoom: 8),
-                          children: [
-                            TileLayer(
-                              urlTemplate:
-                                  'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                              userAgentPackageName: 'com.example.app',
-                            ),
-                            MarkerLayer(markers: [
-                              Marker(
-                                  point: LatLng(data.latitude, data.longitude),
-                                  width: 40,
-                                  height: 40,
-                                  child:
-                                      Image.asset("assets/images/fishing.png"))
-                            ])
-                          ]),
-                    ),
+                        child: data == null
+                            ? FlutterMap(
+                                mapController: _mapController,
+                                options: MapOptions(
+                                    initialCenter: LatLng(
+                                        currentLocation.latitude,
+                                        currentLocation.longitude),
+                                    initialZoom: 8),
+                                children: [
+                                    TileLayer(
+                                      urlTemplate:
+                                          'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                      userAgentPackageName: 'com.example.app',
+                                    ),
+                                    MarkerLayer(markers: [
+                                      Marker(
+                                          point: LatLng(
+                                              currentLocation.latitude,
+                                              currentLocation.longitude),
+                                          width: 40,
+                                          height: 40,
+                                          child: Image.asset(
+                                              "assets/images/fishing.png"))
+                                    ]),
+                                  ])
+                            : FlutterMap(
+                                mapController: _mapController,
+                                options: MapOptions(
+                                    initialCenter: LatLng(
+                                        currentLocation.latitude,
+                                        currentLocation.longitude),
+                                    initialZoom: 8),
+                                children: [
+                                    TileLayer(
+                                      urlTemplate:
+                                          'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                                      userAgentPackageName: 'com.example.app',
+                                    ),
+                                    PolygonLayer(
+                                      polygons: [
+                                        Polygon(
+                                            points: data.location,
+                                            isFilled: true,
+                                            color: Color.fromRGBO(0, 0, 0, 0.3),
+                                            borderColor: Colors.black45,
+                                            borderStrokeWidth: 3)
+                                      ],
+                                      polygonCulling: true,
+                                    ),
+                                    MarkerLayer(markers: [
+                                      Marker(
+                                          point: LatLng(
+                                              currentLocation.latitude,
+                                              currentLocation.longitude),
+                                          width: 40,
+                                          height: 40,
+                                          child: Image.asset(
+                                              "assets/images/fishing.png"))
+                                    ]),
+                                  ])),
                     SizedBox(
                       height: 10,
                     ),
@@ -189,15 +227,18 @@ class _HomeScreenState extends State<HomeScreen> {
                             SizedBox(
                               height: 15,
                             ),
+                            currentPos("Latitude",
+                                currentLocation.latitude.toStringAsFixed(4)),
+                            currentPos("Longitude",
+                                currentLocation.longitude.toStringAsFixed(4)),
                             currentPos(
-                                "Latitude", data.latitude.toStringAsFixed(4)),
-                            currentPos(
-                                "Longitude", data.longitude.toStringAsFixed(4)),
-                            currentPos("Timestamp",
-                                pstDateFormat.dateString(data.timestamp)),
-                            currentPos(
-                                "Altitude", data.altitude.toStringAsFixed(4)),
-                            currentPos("Speed", data.speed.toStringAsFixed(4)),
+                                "Timestamp",
+                                pstDateFormat
+                                    .dateString(currentLocation.timestamp)),
+                            currentPos("Altitude",
+                                currentLocation.altitude.toStringAsFixed(4)),
+                            currentPos("Speed",
+                                currentLocation.speed.toStringAsFixed(4)),
                             SizedBox(
                               height: 10,
                             ),
@@ -226,108 +267,108 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 30,
               ),
-              Text("Important Notifications",
-                  style: TextStyle(
-                      fontFamily: "Readex Pro",
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700),
-                  textAlign: TextAlign.left),
-              SizedBox(
-                height: 10,
-              ),
-              SizedBox(
-                height: 200.0,
-                child: ListView.builder(
-                    physics: ClampingScrollPhysics(),
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 5,
-                    itemBuilder: (BuildContext context, int index) => Container(
-                        height: 200,
-                        width: 300,
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(
-                            width: 2,
-                          ),
-                        ),
-                        child: Column(
-                          children: [
-                            Container(
-                              height: 40,
-                              decoration: BoxDecoration(
-                                color: Color.fromRGBO(255, 0, 0, .55),
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(13),
-                                    topRight: Radius.circular(13)),
-                              ),
-                              child: Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Text(
-                                    "West Philippine Sea Maritime Boundary",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: "Readex Pro",
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SizedBox(
-                                height: 60,
-                                child: SingleChildScrollView(
-                                  child: Text(
-                                    "You are entering a disputed maritime territory. It is advised that you go back to safe position immediately. If tension arises, send a distress signal in the distress signal tab of the application. Keep Safe",
-                                    style: TextStyle(
-                                      fontFamily: "Readex Pro",
-                                      fontSize: 11,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            ElevatedButton(
-                                onPressed: () {
-                                  // LocalNotification.showPeriodicNotification(
-                                  //     title: "Tiwi Municipal Water Boundary",
-                                  //     body:
-                                  //         "You are now entering the Pioduran Municipal Boundary",
-                                  //     payload: 'Test Payload');
-                                  LocalNotification.cancelAll();
-                                },
-                                child: Text(
-                                  "View All Details",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: "Readex Pro",
-                                      fontSize: 12),
-                                ),
-                                style: ButtonStyle(
-                                    backgroundColor: MaterialStatePropertyAll(
-                                        Color.fromRGBO(47, 51, 64, 1)),
-                                    shape: MaterialStatePropertyAll(
-                                        RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ))))
-                          ],
-                        ))),
-              ),
-              SizedBox(
-                height: 20,
-              ),
+              // Text("Important Notifications",
+              //     style: TextStyle(
+              //         fontFamily: "Readex Pro",
+              //         fontSize: 15,
+              //         fontWeight: FontWeight.w700),
+              //     textAlign: TextAlign.left),
+              // SizedBox(
+              //   height: 10,
+              // ),
+              // SizedBox(
+              //   height: 200.0,
+              //   child: ListView.builder(
+              //       physics: ClampingScrollPhysics(),
+              //       shrinkWrap: true,
+              //       scrollDirection: Axis.horizontal,
+              //       itemCount: 5,
+              //       itemBuilder: (BuildContext context, int index) => Container(
+              //           height: 200,
+              //           width: 300,
+              //           margin:
+              //               EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+              //           decoration: BoxDecoration(
+              //             borderRadius: BorderRadius.circular(16),
+              //             border: Border.all(
+              //               width: 2,
+              //             ),
+              //           ),
+              //           child: Column(
+              //             children: [
+              //               Container(
+              //                 height: 40,
+              //                 decoration: BoxDecoration(
+              //                   color: Color.fromRGBO(255, 0, 0, .55),
+              //                   borderRadius: BorderRadius.only(
+              //                       topLeft: Radius.circular(13),
+              //                       topRight: Radius.circular(13)),
+              //                 ),
+              //                 child: Center(
+              //                   child: Padding(
+              //                     padding: const EdgeInsets.all(10.0),
+              //                     child: Text(
+              //                       "West Philippine Sea Maritime Boundary",
+              //                       style: TextStyle(
+              //                           color: Colors.white,
+              //                           fontFamily: "Readex Pro",
+              //                           fontSize: 13,
+              //                           fontWeight: FontWeight.bold),
+              //                     ),
+              //                   ),
+              //                 ),
+              //               ),
+              //               SizedBox(
+              //                 height: 10,
+              //               ),
+              //               Padding(
+              //                 padding: const EdgeInsets.all(8.0),
+              //                 child: SizedBox(
+              //                   height: 60,
+              //                   child: SingleChildScrollView(
+              //                     child: Text(
+              //                       "You are entering a disputed maritime territory. It is advised that you go back to safe position immediately. If tension arises, send a distress signal in the distress signal tab of the application. Keep Safe",
+              //                       style: TextStyle(
+              //                         fontFamily: "Readex Pro",
+              //                         fontSize: 11,
+              //                       ),
+              //                       textAlign: TextAlign.center,
+              //                     ),
+              //                   ),
+              //                 ),
+              //               ),
+              //               SizedBox(
+              //                 height: 5,
+              //               ),
+              //               ElevatedButton(
+              //                   onPressed: () {
+              //                     // LocalNotification.showPeriodicNotification(
+              //                     //     title: "Tiwi Municipal Water Boundary",
+              //                     //     body:
+              //                     //         "You are now entering the Pioduran Municipal Boundary",
+              //                     //     payload: 'Test Payload');
+              //                     LocalNotification.cancelAll();
+              //                   },
+              //                   child: Text(
+              //                     "View All Details",
+              //                     style: TextStyle(
+              //                         color: Colors.white,
+              //                         fontFamily: "Readex Pro",
+              //                         fontSize: 12),
+              //                   ),
+              //                   style: ButtonStyle(
+              //                       backgroundColor: MaterialStatePropertyAll(
+              //                           Color.fromRGBO(47, 51, 64, 1)),
+              //                       shape: MaterialStatePropertyAll(
+              //                           RoundedRectangleBorder(
+              //                         borderRadius: BorderRadius.circular(8.0),
+              //                       ))))
+              //             ],
+              //           ))),
+              // ),
+              // SizedBox(
+              //   height: 20,
+              // ),
               BlocBuilder<AlertBloc, AlertState>(
                 builder: (context, state) {
                   if (state is AlertFetchedFailure) {
@@ -695,7 +736,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         child: Column(
                                           children: [
                                             Text(
-                                              "[Location] (${pstDateFormat.dateString(data[i].timestamp)})",
+                                              "[Log] (${pstDateFormat.dateString(data[i].timestamp)})",
                                               style: TextStyle(
                                                   fontFamily: "Readex Pro",
                                                   fontSize: 14,

@@ -12,12 +12,14 @@ class MonitorLocation {
   Credentials credentials = Credentials();
   SecureStorage secureStorage = SecureStorage();
 
+  bool isNearDanger = false;
+
   void monitorLocation() {
-    _updateLocation();
+    updateLocation();
     _checkAlertArea();
   }
 
-  void _updateLocation() async {
+  void updateLocation() async {
     String token = await secureStorage.getSecureData("token");
     String id = await secureStorage.getSecureData("user_id");
 
@@ -87,10 +89,11 @@ class MonitorLocation {
     }
 
     if (alert_logs.length == 0) {
+      isNearDanger = false;
       return;
     }
 
-    // print("Alert Logs for notif: " + alert_logs.toString());
+    isNearDanger = true;
 
     for (AlertModel alert in alert_logs) {
       LocalNotification.showSimpleNotification(
@@ -105,8 +108,6 @@ class MonitorLocation {
         "user_id": id,
         "alert_id": alert.id
       });
-
-      print("TESSSSTT ===> " + jsonDecode(test.body).toString());
     }
   }
 }

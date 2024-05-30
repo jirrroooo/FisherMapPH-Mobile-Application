@@ -48,8 +48,12 @@ class _HomepageState extends State<Homepage> {
     _isVerified();
     context.read<HomeBloc>().add(InfoFetched());
 
+    // Send Location on Start of the App
+    monitorLocation.updateLocation();
+
     timer = Timer.periodic(
-        Duration(minutes: 15), (Timer t) => monitorLocation.monitorLocation());
+        Duration(minutes: monitorLocation.isNearDanger ? 5 : 15),
+        (Timer t) => monitorLocation.monitorLocation());
   }
 
   void _isVerified() async {

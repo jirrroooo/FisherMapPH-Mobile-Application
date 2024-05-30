@@ -96,7 +96,7 @@ class _LocationLogPageState extends State<LocationLogPage> {
                     color: Colors.red,
                   ),
                   title: Text(
-                    '[Location] (${pstDateFormat.dateString(data[i].timestamp)})',
+                    '[Log] (${pstDateFormat.dateString(data[i].timestamp)})',
                     style: TextStyle(
                         fontFamily: "Readex Pro",
                         fontWeight: FontWeight.w700,
